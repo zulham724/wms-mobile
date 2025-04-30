@@ -36,6 +36,15 @@
     ],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "11325c82-4e2c-41d0-b895-b09df2d606cb"
+      }
+    },
+    "owner": "smile-platform"
   }
 }
