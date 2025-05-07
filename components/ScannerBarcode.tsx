@@ -1,0 +1,279 @@
+import {
+    CameraView,
+    CameraType,
+    useCameraPermissions,
+    FlashMode,
+  } from "expo-camera";
+  import { useState, useEffect } from "react";
+  import {
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    View,
+    StatusBar,
+    SafeAreaView,
+    Dimensions,
+    Platform,
+    Button,
+  } from "react-native";
+  import { MaterialIcons, Ionicons } from "@expo/vector-icons";
+  
+  // Get the device dimensions
+  const { width: screenWidth, height: screenHeight } = Dimensions.get("window");
+  
+  export default function ScannerBarcode({ onClose }: { onClose: () => void }) {
+    const [flashMode, setFlashMode] = useState<FlashMode>("on");
+    const [permission, requestPermission] = useCameraPermissions();
+    const [scanned, setScanned] = useState(false);
+  
+    // Function to handle barcode scanning
+    const handleBarCodeScanned = ({ type, data }: { type: string; data: string }) => {
+      setScanned(true);
+      alert(`Bar code with type ${type} and data ${data} has been scanned!`);
+      // You can navigate or handle the scanned data as needed
+    };
+  
+    // Toggle flash mode
+    const toggleFlash = () => {
+      setFlashMode((current: FlashMode) => {
+        switch (current) {
+          case "off":
+            return "on";
+          case "on":
+            return "auto";
+          case "auto":
+            return "torch";
+          default:
+            return "off";
+        }
+      });
+    };
+  
+    // Get the flash icon based on current mode
+    const getFlashIcon = () => {
+      switch (flashMode) {
+        case "on":
+          return "flash-on";
+        case "off":
+          return "flash-off";
+        case "auto":
+          return "flash-auto";
+        default:
+          return "flash-off";
+      }
+    };
+  
+    // Close camera and go back
+    const handleClose = () => {
+      onClose();
+    };
+  
+    // Show permission screen if not granted
+    if (!permission) {
+      return (
+        <SafeAreaView style={styles.container}>
+          <Text>Requesting camera permission...</Text>
+        </SafeAreaView>
+      );
+    }
+  
+    if (!permission.granted) {
+      return (
+        <SafeAreaView style={styles.container}>
+          <View style={styles.permissionContainer}>
+            <Text style={styles.permissionText}>
+              We need your permission to use the camera
+            </Text>
+            <Button title="Grant Permission" onPress={requestPermission} />
+          </View>
+        </SafeAreaView>
+      );
+    }
+  
+    return (
+      <View style={styles.container}>
+        <StatusBar barStyle="light-content" backgroundColor="#000000" />
+  
+        <CameraView
+          style={styles.camera}
+          flashMode={flashMode}
+          barcodeScannerSettings={{
+            barcodeTypes: ["qr", "code128", "code39", "ean13", "ean8", "upc_e"],
+          }}
+          onBarcodeScanned={scanned ? undefined : handleBarCodeScanned}
+        >
+          {/* Scan Frame Overlay */}
+          <View style={styles.scanOverlay}>
+            <View style={styles.scanFrame}>
+              <View style={[styles.corner, styles.topLeft]} />
+              <View style={[styles.corner, styles.topRight]} />
+              <View style={[styles.corner, styles.bottomLeft]} />
+              <View style={[styles.corner, styles.bottomRight]} />
+            </View>
+            {/* <Text style={styles.scanText}>
+              Position the QR code within the frame
+            </Text> */}
+          </View>
+  
+          {/* Top Bar Controls */}
+          <SafeAreaView style={styles.topBar}>
+            <View style={styles.title}>
+              <Text style={styles.titleText}>Scan A Waste QR Code</Text>
+            </View>
+  
+            <TouchableOpacity style={styles.flashButton} onPress={toggleFlash}>
+              <MaterialIcons name={getFlashIcon()} size={24} color="white" />
+            </TouchableOpacity>
+          </SafeAreaView>
+  
+          {/* Bottom Controls */}
+          <SafeAreaView style={styles.bottomControls}>
+            <TouchableOpacity style={styles.closeButton} onPress={handleClose}>
+              <Ionicons name="close" size={28} color="white" />
+            </TouchableOpacity>
+  
+            {scanned && (
+              <TouchableOpacity
+                style={styles.scanAgainButton}
+                onPress={() => setScanned(false)}
+              >
+                <Text style={styles.scanAgainText}>Tap to Scan Again</Text>
+              </TouchableOpacity>
+            )}
+          </SafeAreaView>
+        </CameraView>
+      </View>
+    );
+  }
+  
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: "#000",
+      zIndex: 10,
+    },
+    permissionContainer: {
+      flex: 1,
+      justifyContent: "center",
+      alignItems: "center",
+      padding: 20,
+    },
+    permissionText: {
+      fontSize: 16,
+      textAlign: "center",
+      marginBottom: 20,
+    },
+    camera: {
+      flex: 1,
+      height: screenHeight,
+      width: screenWidth,
+    },
+    topBar: {
+      alignItems: "center",
+      width: "100%",
+      paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+      backgroundColor: "rgba(0,0,0,0.3)",
+      height: 180,
+    },
+    closeButton: {
+      padding: 8,
+      paddingTop: 20,
+    },
+    title: {
+      alignItems: "center",
+    },
+    titleText: {
+      color: "white",
+      fontSize: 18,
+      fontWeight: "600",
+    },
+    flashButton: {
+      paddingTop: 16,
+    },
+    scanOverlay: {
+      flex: 1,
+      justifyContent: "center",
+      alignItems: "center",
+    },
+    scanFrame: {
+      width: 250,
+      height: 250,
+      borderWidth: 0,
+      borderRadius: 12,
+      position: "relative",
+    },
+    corner: {
+      position: "absolute",
+      width: 30,
+      height: 30,
+      borderColor: "#fff",
+    },
+    topLeft: {
+      top: 0,
+      left: 0,
+      borderTopWidth: 3,
+      borderLeftWidth: 3,
+      borderTopLeftRadius: 12,
+    },
+    topRight: {
+      top: 0,
+      right: 0,
+      borderTopWidth: 3,
+      borderRightWidth: 3,
+      borderTopRightRadius: 12,
+    },
+    bottomLeft: {
+      bottom: 0,
+      left: 0,
+      borderBottomWidth: 3,
+      borderLeftWidth: 3,
+      borderBottomLeftRadius: 12,
+    },
+    bottomRight: {
+      bottom: 0,
+      right: 0,
+      borderBottomWidth: 3,
+      borderRightWidth: 3,
+      borderBottomRightRadius: 12,
+    },
+    scanText: {
+      color: "white",
+      fontSize: 14,
+      marginTop: 20,
+      backgroundColor: "rgba(0,0,0,0.5)",
+      paddingHorizontal: 12,
+      paddingVertical: 6,
+      borderRadius: 20,
+    },
+    bottomControls: {
+      justifyContent: "center",
+      alignItems: "center",
+      width: "100%",
+      paddingBottom: Platform.OS === "ios" ? 30 : 20,
+      backgroundColor: "rgba(0,0,0,0.3)",
+      // paddingTop: 10,
+    },
+    controlButton: {
+      alignItems: "center",
+      marginHorizontal: 20,
+      padding: 10,
+    },
+    controlText: {
+      color: "white",
+      marginTop: 5,
+      fontSize: 12,
+    },
+    scanAgainButton: {
+      backgroundColor: "rgba(255,255,255,0.3)",
+      paddingVertical: 12,
+      paddingHorizontal: 24,
+      borderRadius: 24,
+      marginTop: 20,
+    },
+    scanAgainText: {
+      color: "white",
+      fontSize: 16,
+      fontWeight: "600",
+    },
+  });
+  
