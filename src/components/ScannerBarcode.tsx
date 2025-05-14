@@ -15,8 +15,12 @@ import {
   Dimensions,
   Platform,
   Button,
+  Alert,
 } from "react-native";
 import { MaterialIcons, Ionicons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
+import { useDispatch, useSelector } from "react-redux";
+import { setVisionBar } from "@services/features/navigationSlice";
 
 // Get the device dimensions - menggunakan Dimensions.get("screen") untuk ukuran layar sebenarnya
 const { width: screenWidth, height: screenHeight } = Dimensions.get("screen");
@@ -26,10 +30,35 @@ export default function ScannerBarcode({ onClose }: { onClose: () => void }) {
   const [permission, requestPermission] = useCameraPermissions();
   const [scanned, setScanned] = useState(false);
 
+  const navigation = useNavigation();
+  const dispatch = useDispatch();
+
+  const showAlert = () => {
+    Alert.alert(
+      "Title", // Judul alert
+      "Bar code has been scanned!", // Pesan alert
+      [
+        {
+          text: "OK", // Tombol OK
+          onPress: () => {
+            // Aksi ketika tombol OK diklik
+            dispatch(setVisionBar({ hideBar: false }));
+            navigation.navigate("WasteBag" as never); // Ganti dengan nama halaman yang ingin dituju
+          },
+        },
+      ]
+    );
+  };
   // Function to handle barcode scanning
-  const handleBarCodeScanned = ({ type, data }: { type: string; data: string }) => {
+  const handleBarCodeScanned = ({
+    type,
+    data,
+  }: {
+    type: string;
+    data: string;
+  }) => {
     setScanned(true);
-    alert(`Bar code with type ${type} and data ${data} has been scanned!`);
+    showAlert();
     // You can navigate or handle the scanned data as needed
   };
 
@@ -65,6 +94,7 @@ export default function ScannerBarcode({ onClose }: { onClose: () => void }) {
 
   // Close camera and go back
   const handleClose = () => {
+    dispatch(setVisionBar({ hideBar: false }));
     onClose();
   };
 
@@ -92,7 +122,11 @@ export default function ScannerBarcode({ onClose }: { onClose: () => void }) {
 
   return (
     <View style={styles.absoluteContainer}>
-      <StatusBar barStyle="light-content" backgroundColor="#000000" translucent />
+      <StatusBar
+        barStyle="light-content"
+        backgroundColor="#000000"
+        translucent
+      />
 
       <CameraView
         style={styles.camera}
@@ -112,8 +146,8 @@ export default function ScannerBarcode({ onClose }: { onClose: () => void }) {
           </View>
         </View>
 
-        {/* Top Bar Controls */}
-        <SafeAreaView style={styles.topBar}>
+        {/* Bottom Controls */}
+        <SafeAreaView style={styles.bottomControls}>
           <View style={styles.title}>
             <Text style={styles.titleText}>Scan A Waste QR Code</Text>
           </View>
@@ -121,22 +155,18 @@ export default function ScannerBarcode({ onClose }: { onClose: () => void }) {
           <TouchableOpacity style={styles.flashButton} onPress={toggleFlash}>
             <MaterialIcons name={getFlashIcon()} size={24} color="white" />
           </TouchableOpacity>
-        </SafeAreaView>
-
-        {/* Bottom Controls */}
-        <SafeAreaView style={styles.bottomControls}>
           <TouchableOpacity style={styles.closeButton} onPress={handleClose}>
             <Ionicons name="close" size={28} color="white" />
           </TouchableOpacity>
 
-          {scanned && (
+          {/* {scanned && (
             <TouchableOpacity
               style={styles.scanAgainButton}
               onPress={() => setScanned(false)}
             >
               <Text style={styles.scanAgainText}>Tap to Scan Again</Text>
             </TouchableOpacity>
-          )}
+          )} */}
         </SafeAreaView>
       </CameraView>
     </View>
@@ -149,7 +179,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#000",
   },
   absoluteContainer: {
-    position: 'absolute',
+    position: "absolute",
     top: 0,
     left: 0,
     right: 0,
@@ -175,20 +205,9 @@ const styles = StyleSheet.create({
     height: screenHeight,
     width: screenWidth,
   },
-  topBar: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    alignItems: "center",
-    width: "100%",
-    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
-    backgroundColor: "rgba(0,0,0,0.3)",
-    height: 180,
-  },
   closeButton: {
     padding: 8,
-    paddingTop: 20,
+    paddingTop: 80,
   },
   title: {
     alignItems: "center",
@@ -203,8 +222,9 @@ const styles = StyleSheet.create({
   },
   scanOverlay: {
     flex: 1,
-    justifyContent: "center",
+    justifyContent: "flex-start",
     alignItems: "center",
+    marginTop: 120,
   },
   scanFrame: {
     width: 250,
@@ -248,36 +268,15 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 12,
   },
   bottomControls: {
-    position: 'absolute',
+    position: "absolute",
     bottom: 0,
     left: 0,
     right: 0,
-    justifyContent: "center",
     alignItems: "center",
     width: "100%",
     paddingBottom: Platform.OS === "ios" ? 30 : 20,
     backgroundColor: "rgba(0,0,0,0.3)",
-  },
-  controlButton: {
-    alignItems: "center",
-    marginHorizontal: 20,
-    padding: 10,
-  },
-  controlText: {
-    color: "white",
-    marginTop: 5,
-    fontSize: 12,
-  },
-  scanAgainButton: {
-    backgroundColor: "rgba(255,255,255,0.3)",
-    paddingVertical: 12,
-    paddingHorizontal: 24,
-    borderRadius: 24,
-    marginTop: 20,
-  },
-  scanAgainText: {
-    color: "white",
-    fontSize: 16,
-    fontWeight: "600",
+    height: 300,
+    paddingVertical: 24,
   },
 });

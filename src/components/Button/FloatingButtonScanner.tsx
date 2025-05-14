@@ -33,8 +33,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     left: width / 2 - 30,
     bottom: 5, // Adjust this as needed
-    zIndex: 10,
-    // display: "none"
+    zIndex: 1,
   },
   floatingButton: {
     width: 60,

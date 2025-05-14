@@ -32,6 +32,10 @@ export default function FollowUpScreen() {
     navigation.navigate("WasteData" as never);
   };
 
+  const handleGoBack = () => {
+    navigation.goBack();
+  };
+
   const [classificationItems, setClassificationItems] = useState([
     { label: "Plastic", value: "plastic" },
     { label: "Paper", value: "paper" },
@@ -43,13 +47,14 @@ export default function FollowUpScreen() {
     { label: "Dispose", value: "dispose" },
     { label: "Reuse", value: "reuse" },
   ]);
+
   return (
     <View className="flex-1 bg-[#EFF1F4]">
       <HeaderComponent />
       <View className="pt-4 pb-4 px-4 flex-row items-center relative">
         <TouchableOpacity
           className="absolute left-4 top-4 z-10"
-          onPress={() => console.log("Go back")}
+          onPress={handleGoBack}
         >
           <Ionicons name="arrow-back" size={24} color="black" />
         </TouchableOpacity>
@@ -82,7 +87,12 @@ export default function FollowUpScreen() {
           </View>
 
           <View className="mt-4">
-            <View style={styles.dropdownContainer}>
+            <View
+              style={[
+                styles.dropdownContainer,
+                { zIndex: 3000 }, // Memberikan z-index lebih tinggi untuk dropdown pertama
+              ]}
+            >
               <Text style={styles.text}>Waste Classification</Text>
               <DropDownPicker
                 open={classificationOpen}
@@ -93,19 +103,29 @@ export default function FollowUpScreen() {
                 setItems={setClassificationItems}
                 placeholder="Select Classification"
                 style={styles.dropdown}
-                dropDownContainerStyle={styles.dropdownList}
+                dropDownContainerStyle={[
+                  styles.dropdownList,
+                  { zIndex: 3000 }, // Memastikan list dropdown memiliki z-index tinggi
+                ]}
                 textStyle={styles.dropdownText}
                 listItemLabelStyle={styles.listItemLabel}
-                // arrowColor="#fff"
                 onOpen={onClassificationOpen}
                 maxHeight={150}
-                // dropdownPosition="top"
-                zIndex={3000}
-                zIndexInverse={1000}
+                ArrowUpIconComponent={({ style }) => (
+                  <Ionicons name="chevron-up" size={20} color="white" />
+                )}
+                ArrowDownIconComponent={({ style }) => (
+                  <Ionicons name="chevron-down" size={20} color="white" />
+                )}
               />
             </View>
 
-            <View style={styles.dropdownContainer}>
+            <View
+              style={[
+                styles.dropdownContainer,
+                { zIndex: 2000 }, // Z-index lebih rendah untuk dropdown kedua
+              ]}
+            >
               <Text style={styles.text}>Waste Action Status</Text>
               <DropDownPicker
                 open={actionOpen}
@@ -116,15 +136,20 @@ export default function FollowUpScreen() {
                 setItems={setActionItems}
                 placeholder="Select Action"
                 style={styles.dropdown}
-                dropDownContainerStyle={styles.dropdownList}
+                dropDownContainerStyle={[
+                  styles.dropdownList,
+                  { zIndex: 2000 }, // Z-index untuk list dropdown kedua
+                ]}
                 textStyle={styles.dropdownText}
                 listItemLabelStyle={styles.listItemLabel}
-                // arrowColor="#fff"
                 onOpen={onActionOpen}
                 maxHeight={150}
-                // dropdownPosition="top"
-                zIndex={2000}
-                zIndexInverse={2000}
+                ArrowUpIconComponent={({ style }) => (
+                  <Ionicons name="chevron-up" size={20} color="white" />
+                )}
+                ArrowDownIconComponent={({ style }) => (
+                  <Ionicons name="chevron-down" size={20} color="white" />
+                )}
               />
             </View>
           </View>
@@ -154,13 +179,12 @@ const styles = StyleSheet.create({
   datePicker: {},
   dropdownContainer: {
     marginBottom: 15,
-    zIndex: 10, // Important for overlapping dropdowns
+    // z-index ditambahkan inline untuk setiap container
   },
   text: {
     fontSize: 14,
     fontWeight: "600",
     marginBottom: 8,
-    zIndex: -1,
   },
   dropdown: {
     borderColor: "#ccc",

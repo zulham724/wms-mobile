@@ -36,63 +36,10 @@ const ProfileScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.content}>
-        <View style={styles.profileHeader}>
-          <View style={styles.profileInfo}>
-            <View style={styles.avatarContainer}>
-              <Text style={styles.avatarText}>JD</Text>
-            </View>
-            <View style={styles.nameContainer}>
-              <Text style={styles.name}>John Doe</Text>
-              <Text style={styles.email}>john.doe@example.com</Text>
-              <Text style={styles.role}>Warehouse Manager</Text>
-            </View>
-          </View>
-        </View>
-
-        <View style={styles.menuContainer}>
-          {profileOptions.map((option, index) => (
-            <TouchableOpacity key={index} style={styles.menuItem}>
-              <View style={styles.menuItemLeft}>
-                <Ionicons name={option.icon} size={22} color="#1FA6DE" />
-                <Text style={styles.menuItemText}>{option.title}</Text>
-              </View>
-              <Ionicons name="chevron-forward" size={20} color="#9CA3AF" />
-            </TouchableOpacity>
-          ))}
-        </View>
-
         <TouchableOpacity style={styles.logoutButton} onPress={signOut}>
           <Ionicons name="log-out-outline" size={22} color="#EF4444" />
           <Text style={styles.logoutText}>Logout</Text>
         </TouchableOpacity>
-
-        <View style={styles.versionContainer}>
-          <Text style={styles.versionText}>Version 1.0.0</Text>
-        </View>
-
-        {/* Tombol untuk membuka GlobalModal dengan posisi berbeda */}
-        <View style={styles.modalButtons}>
-          <TouchableOpacity
-            // style={styles.modalButton}
-            onPress={() => openGlobalModal("center")}
-          >
-            <Text>Buka Modal Tengah</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            // style={styles.modalButton}
-            onPress={() => openGlobalModal("bottom")}
-          >
-            <Text>Buka Modal Bawah</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            // style={styles.modalButton}
-            onPress={() => openGlobalModal("top")}
-          >
-            <Text>Buka Modal Atas</Text>
-          </TouchableOpacity>
-        </View>
       </View>
       {/* GlobalModal Component */}
       <GlobalModal
@@ -139,82 +86,6 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
   },
-  profileHeader: {
-    backgroundColor: "white",
-    borderRadius: 12,
-    padding: 16,
-    marginBottom: 24,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
-    elevation: 2,
-  },
-  profileInfo: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  avatarContainer: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-    backgroundColor: "#1FA6DE",
-    justifyContent: "center",
-    alignItems: "center",
-    marginRight: 16,
-  },
-  avatarText: {
-    color: "white",
-    fontSize: 24,
-    fontWeight: "bold",
-  },
-  nameContainer: {
-    flex: 1,
-  },
-  name: {
-    fontSize: 18,
-    fontWeight: "bold",
-    color: "#1F2937",
-    marginBottom: 2,
-  },
-  email: {
-    fontSize: 14,
-    color: "#6B7280",
-    marginBottom: 2,
-  },
-  role: {
-    fontSize: 14,
-    color: "#1FA6DE",
-    fontWeight: "500",
-  },
-  menuContainer: {
-    backgroundColor: "white",
-    borderRadius: 12,
-    overflow: "hidden",
-    marginBottom: 24,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
-    elevation: 2,
-  },
-  menuItem: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    padding: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: "#F3F4F6",
-  },
-  menuItemLeft: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  menuItemText: {
-    fontSize: 16,
-    color: "#1F2937",
-    marginLeft: 12,
-  },
   logoutButton: {
     flexDirection: "row",
     alignItems: "center",
@@ -232,14 +103,6 @@ const styles = StyleSheet.create({
     color: "#EF4444",
     marginLeft: 12,
     fontWeight: "500",
-  },
-  versionContainer: {
-    alignItems: "center",
-    marginTop: 40,
-  },
-  versionText: {
-    fontSize: 14,
-    color: "#9CA3AF",
   },
 });
 

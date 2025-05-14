@@ -8,6 +8,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import WasteBagLabelScreen from "@screens/main/WasteBagLabelScreen";
 import FollowUpScreen from "@screens/main/FollowUpScreen";
 import WasteDataScreen from "@screens/main/WasteDataScreen";
+import { useSelector } from "react-redux";
 
 // Define the type untuk Stack Navigator yang berisi Home dan layar tambahan
 export type HomeStackParamList = {
@@ -43,6 +44,8 @@ const HomeStackNavigator = () => {
 const Tab = createBottomTabNavigator<MainTabParamList>();
 
 const MainNavigator = () => {
+  const navigation = useSelector((state: any) => state.navigation);
+
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
@@ -87,6 +90,7 @@ const MainNavigator = () => {
           height: 60,
           elevation: 0, // Hapus shadow di Android
           borderTopWidth: 0, // Hapus border di iOS
+          display: navigation.hideBar ? "none" : "flex",
         },
       })}
     >

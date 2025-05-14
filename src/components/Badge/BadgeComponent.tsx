@@ -44,9 +44,9 @@ const statusStyles = {
     text: "#BB940A",
   },
   info: {
-    bg: "#D1ECF1",
+    bg: "#6BB9F0",
     border: "#17A2B8",
-    text: "#0C5460",
+    text: "#fff",
   },
   default: {
     bg: "#000",

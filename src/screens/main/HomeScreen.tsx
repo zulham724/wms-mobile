@@ -1,13 +1,6 @@
 // src/screens/HomeScreen.tsx
 import React from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  TouchableOpacity,
-  Modal,
-} from "react-native";
+import { View, Text, StyleSheet, ScrollView } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
@@ -32,16 +25,6 @@ const HomeScreen: React.FC = () => {
   const [isModalVisible, setIsModalVisible] = React.useState(false);
   const [isScannerVisible, setIsScannerVisible] = React.useState(false);
 
-  const navigation = useNavigation();
-
-  const navigateToWasteBag = () => {
-    navigation.navigate("WasteBag" as never);
-  };
-
-  const openBottomSheet = () => {
-    setBottomSheetVisible(true);
-  };
-
   const closeBottomSheet = () => {
     setBottomSheetVisible(false);
   };
@@ -51,10 +34,8 @@ const HomeScreen: React.FC = () => {
     // Pastikan semua bottomsheet tertutup
     setBottomSheetVisible(false);
     setIsTransactionVisible(false);
-    // Delay sedikit untuk memastikan bottomsheet tertutup sebelum membuka modal
-    setTimeout(() => {
-      setIsModalVisible(true);
-    }, 100);
+
+    setIsModalVisible(true);
   };
 
   return (
@@ -74,9 +55,6 @@ const HomeScreen: React.FC = () => {
                 <LanguageDropdown />
               </View>
               <Banner />
-              <TouchableOpacity onPress={navigateToWasteBag}>
-                <Text>Lihat Waste Bag</Text>
-              </TouchableOpacity>
               <FilterDate />
               <WasteRecap />
               <TransactionDetails
@@ -87,36 +65,33 @@ const HomeScreen: React.FC = () => {
           </ScrollView>
         </View>
 
-        {/* BottomSheet untuk filter */}
-        <SimpleBottomSheet
-          vision={isBottomSheetVisible}
-          onClose={closeBottomSheet}
-        >
-          <Text style={styles.filterTransactionTitle}>Filter</Text>
-          <FilterTransactionDetails />
-        </SimpleBottomSheet>
+        {!isModalVisible && (
+          <>
+            {/* BottomSheet untuk filter */}
+            <SimpleBottomSheet
+              vision={isBottomSheetVisible}
+              onClose={closeBottomSheet}
+            >
+              <Text style={styles.filterTransactionTitle}>Filter</Text>
+              <FilterTransactionDetails />
+            </SimpleBottomSheet>
 
-        {/* BottomSheet untuk detail transaksi */}
-        <SimpleBottomSheet
-          vision={isTransactionVisible}
-          onClose={() => setIsTransactionVisible(false)}
-        >
-          <TransactionDetailsSheet />
-        </SimpleBottomSheet>
+            {/* BottomSheet untuk detail transaksi */}
+            <SimpleBottomSheet
+              vision={isTransactionVisible}
+              onClose={() => setIsTransactionVisible(false)}
+            >
+              <TransactionDetailsSheet />
+            </SimpleBottomSheet>
+          </>
+        )}
 
-        {/* Modal untuk scanner - gunakan Modal langsung */}
-        {/* <Modal
-          transparent={true}
-          visible={isModalVisible}
-          animationType="fade"
-          onRequestClose={() => setIsModalVisible(false)}
-        >
-          <View style={styles.modalOverlay}>
-            <View style={styles.modalContent}>
-                <Text>Modal Content</Text>
-            </View>
-          </View>
-        </Modal> */}
+        {/* Modal untuk scanner */}
+        <ModalStartScanner
+          isModalVisible={isModalVisible}
+          setIsModalVisible={setIsModalVisible}
+          setIsScannerVisible={setIsScannerVisible}
+        />
 
         {/* Floating button untuk scanner */}
         <FloatingButtonScanner setIsModalVisible={handleScannerButtonClick} />
@@ -172,19 +147,6 @@ const styles = StyleSheet.create({
     bottom: 0,
     zIndex: 2000,
     backgroundColor: "#FFF",
-  },
-  modalOverlay: {
-    flex: 1,
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  modalContent: {
-    backgroundColor: "#FFF",
-    padding: 20,
-    borderRadius: 10,
-    width: "80%",
-    alignItems: "center",
   },
 });
 

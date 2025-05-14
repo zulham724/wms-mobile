@@ -104,6 +104,7 @@ const styles = StyleSheet.create({
   bottomSheetContainer: {
     width: "100%",
     flex: 1,
+    zIndex: 10,
   },
   handleStyle: {
     backgroundColor: "#FFFFFF",
