@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { useTranslation } from "react-i18next";
-import CardComponent from "../../Card/CardComponent";
+import CardComponent from "../../common/Card/CardComponent";
 
 type CardItemProps = {
   title: string;
@@ -45,7 +45,7 @@ const WasteRecap: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>{t("wasteRecapTitle")}</Text>
+      <Text className="text-base font-semibold">{t("wasteRecapTitle")}</Text>
       <View style={styles.cardContainer}>
         {cardItems.map((item, index) => (
           <CardItem

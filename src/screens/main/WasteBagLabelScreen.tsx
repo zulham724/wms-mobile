@@ -7,7 +7,7 @@ import {
   TextInput,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import HeaderComponent from "@components/Header";
+import GlobalWrapper from "@components/ui/GlobalWrapper";
 
 const WasteBagLabelScreen: React.FC = () => {
   const [activeTab, setActiveTab] = useState<"internet" | "bluetooth">(
@@ -122,23 +122,8 @@ const WasteBagLabelScreen: React.FC = () => {
   };
 
   return (
-    <View className="flex-1 bg-[#EFF1F4]">
-      {/* Header */}
-      <HeaderComponent />
-      <View className="pt-4 pb-4 px-4 flex-row items-center relative">
-        <TouchableOpacity
-          className="absolute left-4 top-4 z-10"
-          // onPress={handleGoBack}
-        >
-          <Ionicons name="arrow-back" size={24} color="black" />
-        </TouchableOpacity>
-        <View className="flex-1 items-center">
-          <Text className="text-xl font-bold text-black">Waste Bag Label</Text>
-        </View>
-      </View>
-
-      {/* Content in ScrollView */}
-      <ScrollView className="flex-1 px-4">
+    <GlobalWrapper title="Waste Bag Label">
+      <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
         {/* Form Data */}
         <View className="bg-white rounded-lg p-4 mb-6 shadow-sm">
           {Object.entries(wasteData).map(([key, value], index) => (
@@ -147,7 +132,7 @@ const WasteBagLabelScreen: React.FC = () => {
         </View>
 
         {/* Tabs Section Below Form */}
-        <View className="mb-4 pb-4">
+        <View className="mb-4">
           <View className="flex-row">
             <TouchableOpacity
               className={`flex-1 py-3 flex-row justify-center items-center ${
@@ -198,7 +183,7 @@ const WasteBagLabelScreen: React.FC = () => {
           {renderTabContent()}
         </View>
       </ScrollView>
-    </View>
+    </GlobalWrapper>
   );
 };
 

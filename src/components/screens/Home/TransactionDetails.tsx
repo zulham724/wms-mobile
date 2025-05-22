@@ -8,26 +8,21 @@ import {
 import { useTranslation } from "react-i18next";
 import React from "react";
 import { MaterialIcons } from "@expo/vector-icons";
-import TransactionsDetails from "@components/TransactionsDetails";
+import TransactionsDetailsItem from "@components/TransactionsDetailsItem";
+import { useDispatch } from "react-redux";
+import { setIsBottomSheetVisible } from "@services/features/navigationSlice";
 
-type TransactionDetailsProps = {
-  setIsTransactionVisible: React.Dispatch<React.SetStateAction<boolean>>;
-  setIsBottomSheetVisible: React.Dispatch<React.SetStateAction<boolean>>;
-};
-
-export default function TransactionDetails({
-  setIsTransactionVisible,
-  setIsBottomSheetVisible,
-}: Readonly<TransactionDetailsProps>) {
+export default function TransactionDetails() {
   const { t } = useTranslation();
+  const dispatch = useDispatch();
 
   const openBottomSheet = () => {
-    setIsBottomSheetVisible(true);
+    dispatch(setIsBottomSheetVisible(true));
   };
 
   return (
-    <View style={{ flex: 1 }}>
-      <Text className="font-bold text-base mt-5 text-start w-full">
+    <View className="flex-1 mt-5 mb-14">
+      <Text className="font-semibold text-base text-start w-full">
         {t("transactionDetailsTitle")}
       </Text>
       <View className="flex-row justify-between items-center mt-4">
@@ -47,18 +42,10 @@ export default function TransactionDetails({
         <TouchableOpacity style={styles.filterButton} onPress={openBottomSheet}>
           <MaterialIcons name="filter-list-alt" size={20} color="#333" />
         </TouchableOpacity>
-        {/* <FilterIconTransaction /> */}
       </View>
       <View style={{ flex: 1 }}>
-        <TransactionsDetails
-          onOpenTransaction={() => {
-            console.log("open transaction");
-            setIsTransactionVisible(true);
-          }}
-        />
-        <TransactionsDetails
-          onOpenTransaction={() => setIsTransactionVisible(true)}
-        />
+        <TransactionsDetailsItem />
+        <TransactionsDetailsItem />
       </View>
     </View>
   );

@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
-import ButtonComponent from './Button/ButtonComponent';
+import ButtonComponent from './common/Button/ButtonComponent';
 
 const FilterTransactionDetails = () => {
   const [classificationOpen, setClassificationOpen] = useState(false);
@@ -94,7 +94,6 @@ const styles = StyleSheet.create({
   container: {
     marginTop: 20,
     width: '100%',
-    paddingHorizontal: 16,
   },
   text: {
     fontSize: 14,

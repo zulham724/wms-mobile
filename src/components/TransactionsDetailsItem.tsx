@@ -1,9 +1,9 @@
 import React, { useCallback, useRef } from "react";
 import { View, Text, StyleSheet, Pressable } from "react-native";
-import CardComponent from "./Card/CardComponent";
-import BadgeComponent from "./Badge/BadgeComponent";
-import BottomSheet from "./BottomSheet/BottomSheetComponent";
-import TransactionDetailsSheet from "./TransactionDetailSheet";
+import CardComponent from "./common/Card/CardComponent";
+import BadgeComponent from "./common/Badge/BadgeComponent";
+import { useDispatch } from "react-redux";
+import { setIsTransactionVisible } from "@services/features/navigationSlice";
 
 interface BadgeProps {
   status: "success" | "error" | "warning" | "info" | "default";
@@ -40,27 +40,17 @@ const OutlineBadge: React.FC<BadgeProps> = ({ status, label }) => {
   );
 };
 
-const TransactionsDetails = ({
-  onOpenTransaction,
-}: {
-  onOpenTransaction: () => void;
-}) => {
-  const [isBottomSheetVisible, setBottomSheetVisible] = React.useState(false);
+const TransactionsDetailsItem = () => {
+  const dispatch = useDispatch();
+  const onOpenTransactionDetails = () => {
+    dispatch(setIsTransactionVisible(true));
+  };
 
-  //   const bottomSheetRef = useRef<BottomSheet>(null);
-
-  // callbacks
-  const handleSheetChanges = useCallback((index: number) => {
-    console.log("handleSheetChanges", index);
-  }, []);
   return (
     <View style={styles.container}>
       {/* Adjusted Search and Filter Row */}
 
-      <Pressable onPress={() => {
-        console.log("onOpenTransaction transactions");
-        onOpenTransaction();
-      }}>
+      <Pressable onPress={onOpenTransactionDetails}>
         <CardComponent style={styles.card}>
           <View style={styles.badgeContainer}>
             <View style={styles.wasteActionStart}>
@@ -160,4 +150,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default TransactionsDetails;
+export default TransactionsDetailsItem;

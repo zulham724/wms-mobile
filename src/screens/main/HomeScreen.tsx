@@ -1,108 +1,61 @@
-// src/screens/HomeScreen.tsx
 import React from "react";
 import { View, Text, StyleSheet, ScrollView } from "react-native";
-import { useNavigation } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import HeaderComponent from "@components/Header";
 import Banner from "@components/screens/Home/Banner";
 import WasteRecap from "@components/screens/Home/WasteRecap";
 import FilterDate from "@components/screens/Home/FilterDate";
 import LanguageDropdown from "../../components/ui/LanguageDropdown";
-import SimpleBottomSheet from "@components/BottomSheet/BottomSheetComponent";
-import FilterTransactionDetails from "../../components/FilterTransactionDetails";
-import TransactionDetailsSheet from "@components/TransactionDetailSheet";
 import TransactionDetails from "@components/screens/Home/TransactionDetails";
-import FloatingButtonScanner from "@components/Button/FloatingButtonScanner";
-import ModalStartScanner from "@components/Modal/ModalStartScanner";
-import ScannerBarcode from "@components/ScannerBarcode";
-import { SafeAreaView } from "react-native-safe-area-context";
+import WasteGroupTitle from "@components/screens/Home/WasteGroupTitle";
+import { useSelector } from "react-redux";
+import GlobalWrapper from "@components/ui/GlobalWrapper";
 
 const HomeScreen: React.FC = () => {
   const { t } = useTranslation();
-  const [isBottomSheetVisible, setBottomSheetVisible] = React.useState(false);
-  const [isTransactionVisible, setIsTransactionVisible] = React.useState(false);
-  const [isModalVisible, setIsModalVisible] = React.useState(false);
-  const [isScannerVisible, setIsScannerVisible] = React.useState(false);
-
-  const closeBottomSheet = () => {
-    setBottomSheetVisible(false);
-  };
-
-  // Fungsi untuk menangani klik tombol scanner
-  const handleScannerButtonClick = () => {
-    // Pastikan semua bottomsheet tertutup
-    setBottomSheetVisible(false);
-    setIsTransactionVisible(false);
-
-    setIsModalVisible(true);
-  };
+  const navigationState = useSelector((state: any) => state.navigation);
 
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <SafeAreaView style={{ flex: 1 }}>
-        <View style={{ flex: 1 }}>
-          <HeaderComponent />
-          <ScrollView
-            contentContainerStyle={styles.scrollContainer}
-            showsVerticalScrollIndicator={false}
-            nestedScrollEnabled={true}
-            style={{ flex: 1 }}
-          >
-            <View style={styles.container}>
-              <View style={styles.wrapContainer}>
-                <Text style={styles.greeting}>{t("greeting")}, Andy</Text>
-                <LanguageDropdown />
-              </View>
-              <Banner />
-              <FilterDate />
-              <WasteRecap />
-              <TransactionDetails
-                setIsBottomSheetVisible={setBottomSheetVisible}
-                setIsTransactionVisible={setIsTransactionVisible}
-              />
+    <GestureHandlerRootView className="flex-1">
+      <GlobalWrapper showBackAction={false}>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          nestedScrollEnabled={true}
+          className="mb-4"
+        >
+          <View style={styles.container}>
+            <View style={styles.wrapContainer}>
+              <Text style={styles.greeting}>{t("greeting")}, Andy</Text>
+              <LanguageDropdown />
             </View>
-          </ScrollView>
-        </View>
-
-        {!isModalVisible && (
-          <>
-            {/* BottomSheet untuk filter */}
-            <SimpleBottomSheet
-              vision={isBottomSheetVisible}
-              onClose={closeBottomSheet}
-            >
-              <Text style={styles.filterTransactionTitle}>Filter</Text>
-              <FilterTransactionDetails />
-            </SimpleBottomSheet>
-
-            {/* BottomSheet untuk detail transaksi */}
-            <SimpleBottomSheet
-              vision={isTransactionVisible}
-              onClose={() => setIsTransactionVisible(false)}
-            >
-              <TransactionDetailsSheet />
-            </SimpleBottomSheet>
-          </>
-        )}
-
-        {/* Modal untuk scanner */}
-        <ModalStartScanner
-          isModalVisible={isModalVisible}
-          setIsModalVisible={setIsModalVisible}
-          setIsScannerVisible={setIsScannerVisible}
-        />
-
-        {/* Floating button untuk scanner */}
-        <FloatingButtonScanner setIsModalVisible={handleScannerButtonClick} />
-
-        {/* Scanner overlay */}
-        {isScannerVisible && (
-          <View style={styles.scannerOverlay}>
-            <ScannerBarcode onClose={() => setIsScannerVisible(false)} />
+            <Banner />
+            <WasteGroupTitle />
+            <FilterDate />
+            <WasteRecap />
+            <TransactionDetails />
           </View>
-        )}
-      </SafeAreaView>
+        </ScrollView>
+      </GlobalWrapper>
+      {!navigationState.isModalScannerVisible && (
+        <>
+          {/* BottomSheet untuk filter */}
+          {/* <BottomSheetComponent
+            vision={navigationState.isBottomSheetVisible}
+            onClose={closeBottomSheet}
+          >
+            <Text style={styles.filterTransactionTitle}>Filter</Text>
+            <FilterTransactionDetails />
+          </BottomSheetComponent> */}
+
+          {/* BottomSheet untuk detail transaksi */}
+          {/* <BottomSheetComponent
+            vision={navigationState.isTransactionVisible}
+            onClose={closeTransactionSheet}
+          >
+            <TransactionDetailsSheet />
+          </BottomSheetComponent> */}
+        </>
+      )}
     </GestureHandlerRootView>
   );
 };
@@ -115,7 +68,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#EFF1F4",
-    padding: 15,
     width: "100%",
   },
   greeting: {
@@ -128,8 +80,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginTop: 10,
-    marginBottom: 10,
+    marginTop: 16,
+    marginBottom: 4,
     width: "100%",
   },
   filterTransactionTitle: {
@@ -138,15 +90,6 @@ const styles = StyleSheet.create({
     marginTop: 20,
     width: "100%",
     textAlign: "center",
-  },
-  scannerOverlay: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    zIndex: 2000,
-    backgroundColor: "#FFF",
   },
 });
 

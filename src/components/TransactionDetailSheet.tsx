@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, StyleSheet, TextInput, Dimensions } from "react-native";
-import BadgeComponent from "./Badge/BadgeComponent";
+import BadgeComponent from "./common/Badge/BadgeComponent";
 import { ScrollView } from "react-native-gesture-handler";
 
 // Mendapatkan tinggi layar untuk membatasi tinggi ScrollView
@@ -39,7 +39,7 @@ const TransactionDetailsSheet = () => {
       {/* ScrollView untuk konten yang dapat di-scroll */}
       <ScrollView
         contentContainerStyle={styles.scrollContent}
-        showsVerticalScrollIndicator={true}
+        showsVerticalScrollIndicator={false}
         bounces={false}
         nestedScrollEnabled={true} // Penting untuk nested scrolling dalam BottomSheet
       >
@@ -153,7 +153,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     width: "100%",
-    maxHeight: screenHeight * 0.7, // membatasi tinggi maksimum
+    // maxHeight: screenHeight * 0.7, // membatasi tinggi maksimum
   },
   header: {
     backgroundColor: "#fff",
@@ -165,6 +165,7 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     width: "100%",
+    // marginBottom: 50,
   },
   badgeContainer: {
     width: "100%",

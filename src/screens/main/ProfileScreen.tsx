@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useAuth } from "../../context/AuthContext";
-import GlobalModal from "@components/Modal/ModalComponent"; // Import GlobalModal
+import GlobalModal from "@components/common/Modal/ModalComponent"; // Import GlobalModal
 
 const ProfileScreen = () => {
   const { signOut } = useAuth();

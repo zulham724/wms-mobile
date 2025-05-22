@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
-import CardComponent from "@components/Card/CardComponent";
-import DatePicker from "@components/DatePicker/DatePickerComponent";
+import CardComponent from "@components/common/Card/CardComponent";
+import DatePicker from "@components/common/DatePicker/DatePickerComponent";
 
 const FilterDate = () => {
   return (

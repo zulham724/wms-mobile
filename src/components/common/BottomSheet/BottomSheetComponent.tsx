@@ -1,9 +1,8 @@
 import React, { useRef, useState, useCallback, useEffect } from "react";
-import { View, Text, Button, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
 import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
 
-const SimpleBottomSheet = ({
+const BottomSheetComponent = ({
   vision,
   children,
   onClose,
@@ -19,9 +18,7 @@ const SimpleBottomSheet = ({
   const [snapIndex, setSnapIndex] = useState(-1); // 0, 1, 2 untuk snap points yang berbeda
 
   // snap points
-  const snapPoints = ["25%", "50%", "90%"];
-
-  console.log("vision", vision);
+  const snapPoints = ["50%", "70%", "95%"];
 
   // callback untuk menangani perubahan
   const handleSheetChanges = useCallback(
@@ -50,6 +47,8 @@ const SimpleBottomSheet = ({
   // Memperluas atau mengubah posisi sheet berdasarkan snapIndex
   useEffect(() => {
     if (bottomSheetRef.current) {
+      console.log(bottomSheetRef.current, "bottomSheetRef.current");
+      console.log("snapIndex:", snapIndex);
       if (snapIndex >= 0) {
         bottomSheetRef.current.snapToIndex(snapIndex);
       } else {
@@ -66,6 +65,7 @@ const SimpleBottomSheet = ({
     }
   }, [vision, closeSheet]);
 
+  console.log(vision, "vision");
   return (
     <View
       style={styles.container}
@@ -99,12 +99,13 @@ const styles = StyleSheet.create({
     right: 0,
     top: 0,
     bottom: 0,
+    // zIndex: 10
     // borderTopStartRadius: 30,
   },
   bottomSheetContainer: {
     width: "100%",
     flex: 1,
-    zIndex: 10,
+    zIndex: 100,
   },
   handleStyle: {
     backgroundColor: "#FFFFFF",
@@ -124,4 +125,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SimpleBottomSheet;
+export default BottomSheetComponent;

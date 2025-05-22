@@ -19,19 +19,30 @@ import {
 } from "react-native";
 import { MaterialIcons, Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import { useDispatch, useSelector } from "react-redux";
-import { setVisionBar } from "@services/features/navigationSlice";
+import { useDispatch } from "react-redux";
+import {
+  setIsScannerVisible,
+  setIsTabBarVisible,
+  setIsModalScannerVisible,
+} from "@services/features/navigationSlice";
 
 // Get the device dimensions - menggunakan Dimensions.get("screen") untuk ukuran layar sebenarnya
 const { width: screenWidth, height: screenHeight } = Dimensions.get("screen");
 
-export default function ScannerBarcode({ onClose }: { onClose: () => void }) {
+export default function ScannerBarcode() {
   const [flashMode, setFlashMode] = useState<FlashMode>("on");
   const [permission, requestPermission] = useCameraPermissions();
   const [scanned, setScanned] = useState(false);
 
   const navigation = useNavigation();
   const dispatch = useDispatch();
+
+  const onClose = () => {
+    console.log("onClose");
+    dispatch(setIsTabBarVisible(true));
+    dispatch(setIsModalScannerVisible(false));
+    dispatch(setIsScannerVisible(false));
+  };
 
   const showAlert = () => {
     Alert.alert(
@@ -41,9 +52,9 @@ export default function ScannerBarcode({ onClose }: { onClose: () => void }) {
         {
           text: "OK", // Tombol OK
           onPress: () => {
-            // Aksi ketika tombol OK diklik
-            dispatch(setVisionBar({ hideBar: false }));
-            navigation.navigate("WasteBag" as never); // Ganti dengan nama halaman yang ingin dituju
+            dispatch(setIsTabBarVisible(true));
+            dispatch(setIsScannerVisible(false));
+            navigation.navigate("WasteBag" as never); 
           },
         },
       ]
@@ -65,6 +76,7 @@ export default function ScannerBarcode({ onClose }: { onClose: () => void }) {
   // Toggle flash mode
   const toggleFlash = () => {
     setFlashMode((current: FlashMode) => {
+      console.log(current, "current");
       switch (current) {
         case "off":
           return "on";
@@ -94,7 +106,6 @@ export default function ScannerBarcode({ onClose }: { onClose: () => void }) {
 
   // Close camera and go back
   const handleClose = () => {
-    dispatch(setVisionBar({ hideBar: false }));
     onClose();
   };
 
@@ -130,7 +141,7 @@ export default function ScannerBarcode({ onClose }: { onClose: () => void }) {
 
       <CameraView
         style={styles.camera}
-        flashMode={flashMode}
+        flash={flashMode}
         barcodeScannerSettings={{
           barcodeTypes: ["qr", "code128", "code39", "ean13", "ean8", "upc_e"],
         }}
@@ -158,15 +169,6 @@ export default function ScannerBarcode({ onClose }: { onClose: () => void }) {
           <TouchableOpacity style={styles.closeButton} onPress={handleClose}>
             <Ionicons name="close" size={28} color="white" />
           </TouchableOpacity>
-
-          {/* {scanned && (
-            <TouchableOpacity
-              style={styles.scanAgainButton}
-              onPress={() => setScanned(false)}
-            >
-              <Text style={styles.scanAgainText}>Tap to Scan Again</Text>
-            </TouchableOpacity>
-          )} */}
         </SafeAreaView>
       </CameraView>
     </View>

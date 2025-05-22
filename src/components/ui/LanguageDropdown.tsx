@@ -9,6 +9,7 @@ import {
 import { useTranslation } from "react-i18next";
 import CountryFlag from "react-native-country-flag";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import * as Localization from "expo-localization";
 
 type LanguageOption = {
   code: "en" | "id";
@@ -21,8 +22,9 @@ const languages: LanguageOption[] = [
 ];
 
 const LanguageDropdown: React.FC = () => {
+  const localeLanguage = Localization.locale.slice(0, 2);
   const [selectedLanguage, setSelectedLanguage] = useState<LanguageOption>(
-    languages[0]
+    languages.find((lang) => lang.code === localeLanguage) || languages[0]
   );
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const { i18n } = useTranslation();
@@ -69,7 +71,7 @@ const LanguageDropdown: React.FC = () => {
             </TouchableOpacity>
           )}
           style={styles.dropdown}
-          scrollEnabled={false}  // This prevents scrolling within the dropdown itself
+          scrollEnabled={false} // This prevents scrolling within the dropdown itself
         />
       )}
     </View>

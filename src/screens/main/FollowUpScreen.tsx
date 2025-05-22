@@ -1,14 +1,12 @@
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import React, { useState } from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
-import HeaderComponent from "@components/Header";
-import FilterDate from "@components/screens/Home/FilterDate";
-import CardComponent from "@components/Card/CardComponent";
-import DatePicker from "@components/DatePicker/DatePickerComponent";
+import CardComponent from "@components/common/Card/CardComponent";
+import DatePicker from "@components/common/DatePicker/DatePickerComponent";
 import DropDownPicker from "react-native-dropdown-picker";
-import ButtonComponent from "@components/Button/ButtonComponent";
+import ButtonComponent from "@components/common/Button/ButtonComponent";
 import { useNavigation } from "@react-navigation/native";
+import GlobalWrapper from "@components/ui/GlobalWrapper";
 
 export default function FollowUpScreen() {
   const [classificationOpen, setClassificationOpen] = useState(false);
@@ -49,122 +47,106 @@ export default function FollowUpScreen() {
   ]);
 
   return (
-    <View className="flex-1 bg-[#EFF1F4]">
-      <HeaderComponent />
-      <View className="pt-4 pb-4 px-4 flex-row items-center relative">
-        <TouchableOpacity
-          className="absolute left-4 top-4 z-10"
-          onPress={handleGoBack}
-        >
-          <Ionicons name="arrow-back" size={24} color="black" />
-        </TouchableOpacity>
-        <View className="flex-1 items-center">
-          <Text className="text-xl font-bold text-black">
-            Follow Up Transaction
-          </Text>
+    <GlobalWrapper title="Follow Up Transaction" showBackAction={true}>
+      <CardComponent style={styles.cardContainer}>
+        {/* Start Date */}
+        <View className="flex-row justify-between">
+          <View className="flex-col w-[49%]">
+            <View className="flex-row items-center gap-1">
+              <Text className="text-sm text-black">Start Date</Text>
+              <Text className="text-sm text-red-500">*</Text>
+            </View>
+            <DatePicker onDateSelected={() => {}} style={styles.datePicker} />
+          </View>
+
+          {/* End Date */}
+          <View className="flex-col w-[49%]">
+            <View className="flex-row items-center gap-1">
+              <Text className="text-sm text-black">End Date</Text>
+              <Text className="text-sm text-red-500">*</Text>
+            </View>
+            <DatePicker onDateSelected={() => {}} style={styles.datePicker} />
+          </View>
         </View>
-      </View>
-      <View className="px-4">
-        <CardComponent style={styles.cardContainer}>
-          {/* Start Date */}
-          <View className="flex-row justify-between">
-            <View className="flex-col w-[49%]">
-              <View className="flex-row items-center gap-1">
-                <Text className="text-sm text-black">Start Date</Text>
-                <Text className="text-sm text-red-500">*</Text>
-              </View>
-              <DatePicker onDateSelected={() => {}} style={styles.datePicker} />
-            </View>
 
-            {/* End Date */}
-            <View className="flex-col w-[49%]">
-              <View className="flex-row items-center gap-1">
-                <Text className="text-sm text-black">End Date</Text>
-                <Text className="text-sm text-red-500">*</Text>
-              </View>
-              <DatePicker onDateSelected={() => {}} style={styles.datePicker} />
-            </View>
-          </View>
-
-          <View className="mt-4">
-            <View
-              style={[
-                styles.dropdownContainer,
-                { zIndex: 3000 }, // Memberikan z-index lebih tinggi untuk dropdown pertama
+        <View className="mt-4">
+          <View
+            style={[
+              styles.dropdownContainer,
+              { zIndex: 3000 }, // Memberikan z-index lebih tinggi untuk dropdown pertama
+            ]}
+          >
+            <Text style={styles.text}>Waste Classification</Text>
+            <DropDownPicker
+              open={classificationOpen}
+              value={selectedClassification}
+              items={classificationItems}
+              setOpen={setClassificationOpen}
+              setValue={setSelectedClassification}
+              setItems={setClassificationItems}
+              placeholder="Select Classification"
+              style={styles.dropdown}
+              dropDownContainerStyle={[
+                styles.dropdownList,
+                { zIndex: 3000 }, // Memastikan list dropdown memiliki z-index tinggi
               ]}
-            >
-              <Text style={styles.text}>Waste Classification</Text>
-              <DropDownPicker
-                open={classificationOpen}
-                value={selectedClassification}
-                items={classificationItems}
-                setOpen={setClassificationOpen}
-                setValue={setSelectedClassification}
-                setItems={setClassificationItems}
-                placeholder="Select Classification"
-                style={styles.dropdown}
-                dropDownContainerStyle={[
-                  styles.dropdownList,
-                  { zIndex: 3000 }, // Memastikan list dropdown memiliki z-index tinggi
-                ]}
-                textStyle={styles.dropdownText}
-                listItemLabelStyle={styles.listItemLabel}
-                onOpen={onClassificationOpen}
-                maxHeight={150}
-                ArrowUpIconComponent={({ style }) => (
-                  <Ionicons name="chevron-up" size={20} color="white" />
-                )}
-                ArrowDownIconComponent={({ style }) => (
-                  <Ionicons name="chevron-down" size={20} color="white" />
-                )}
-              />
-            </View>
-
-            <View
-              style={[
-                styles.dropdownContainer,
-                { zIndex: 2000 }, // Z-index lebih rendah untuk dropdown kedua
-              ]}
-            >
-              <Text style={styles.text}>Waste Action Status</Text>
-              <DropDownPicker
-                open={actionOpen}
-                value={selectedAction}
-                items={actionItems}
-                setOpen={setActionOpen}
-                setValue={setSelectedAction}
-                setItems={setActionItems}
-                placeholder="Select Action"
-                style={styles.dropdown}
-                dropDownContainerStyle={[
-                  styles.dropdownList,
-                  { zIndex: 2000 }, // Z-index untuk list dropdown kedua
-                ]}
-                textStyle={styles.dropdownText}
-                listItemLabelStyle={styles.listItemLabel}
-                onOpen={onActionOpen}
-                maxHeight={150}
-                ArrowUpIconComponent={({ style }) => (
-                  <Ionicons name="chevron-up" size={20} color="white" />
-                )}
-                ArrowDownIconComponent={({ style }) => (
-                  <Ionicons name="chevron-down" size={20} color="white" />
-                )}
-              />
-            </View>
-          </View>
-          <View className="flex-row justify-end w-full">
-            <ButtonComponent
-              title="Apply"
-              backgroundColor="#08ABDE"
-              size="medium"
-              variant="outline"
-              onPress={() => goToWasteDataScreen()}
+              textStyle={styles.dropdownText}
+              listItemLabelStyle={styles.listItemLabel}
+              onOpen={onClassificationOpen}
+              maxHeight={150}
+              ArrowUpIconComponent={({ style }) => (
+                <Ionicons name="chevron-up" size={20} color="white" />
+              )}
+              ArrowDownIconComponent={({ style }) => (
+                <Ionicons name="chevron-down" size={20} color="white" />
+              )}
             />
           </View>
-        </CardComponent>
-      </View>
-    </View>
+
+          <View
+            style={[
+              styles.dropdownContainer,
+              { zIndex: 2000 }, // Z-index lebih rendah untuk dropdown kedua
+            ]}
+          >
+            <Text style={styles.text}>Waste Action Status</Text>
+            <DropDownPicker
+              open={actionOpen}
+              value={selectedAction}
+              items={actionItems}
+              setOpen={setActionOpen}
+              setValue={setSelectedAction}
+              setItems={setActionItems}
+              placeholder="Select Action"
+              style={styles.dropdown}
+              dropDownContainerStyle={[
+                styles.dropdownList,
+                { zIndex: 2000 }, // Z-index untuk list dropdown kedua
+              ]}
+              textStyle={styles.dropdownText}
+              listItemLabelStyle={styles.listItemLabel}
+              onOpen={onActionOpen}
+              maxHeight={150}
+              ArrowUpIconComponent={({ style }) => (
+                <Ionicons name="chevron-up" size={20} color="white" />
+              )}
+              ArrowDownIconComponent={({ style }) => (
+                <Ionicons name="chevron-down" size={20} color="white" />
+              )}
+            />
+          </View>
+        </View>
+        <View className="flex-row justify-end w-full">
+          <ButtonComponent
+            title="Apply"
+            backgroundColor="#08ABDE"
+            size="medium"
+            variant="outline"
+            onPress={() => goToWasteDataScreen()}
+          />
+        </View>
+      </CardComponent>
+    </GlobalWrapper>
   );
 }
 
@@ -172,7 +154,6 @@ const styles = StyleSheet.create({
   cardContainer: {
     width: "100%",
     padding: 16,
-    marginTop: 8,
     gap: 8,
     justifyContent: "space-between",
   },

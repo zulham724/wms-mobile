@@ -1,6 +1,6 @@
 import { View, Text, ImageBackground } from "react-native";
 import React from "react";
-import ButtonComponent from "@components/Button/ButtonComponent";
+import ButtonComponent from "@components/common/Button/ButtonComponent";
 import { useTranslation } from "react-i18next";
 import { useNavigation } from "@react-navigation/native";
 
