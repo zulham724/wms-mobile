@@ -15,6 +15,7 @@ import {
 import { StatusBar } from "expo-status-bar";
 import { Ionicons } from "@expo/vector-icons";
 import { useAuth } from "../../context/AuthContext";
+import { CustomText } from "@components/common";
 
 const LoginScreen = () => {
   const [email, setEmail] = useState("");
@@ -55,9 +56,6 @@ const LoginScreen = () => {
     );
   };
 
-  // Primary color for the app
-  const primaryColor = "#1FA6DE";
-
   return (
     <SafeAreaView className="flex-1 bg-white">
       <StatusBar style="auto" />
@@ -78,24 +76,27 @@ const LoginScreen = () => {
           <View className="items-center mt-10">
             <Image
               source={require("@assets/images/logo_smile.png")} // Adjusted path for new structure
-              className="w-36 h-36"
+              className="w-52"
               resizeMode="contain"
             />
           </View>
 
           {/* App Title */}
-          <View className="items-start mt-4">
-            <Text style={{ color: primaryColor }} className="text-xl font-bold">
-              Smile WMS
-            </Text>
+          <View className="items-start mt-16">
+            <CustomText
+              fontFamily="Poppins-SemiBold"
+              className="text-2xl text-[#1FA6DE]"
+            >
+              SMILE WMS
+            </CustomText>
           </View>
 
           {/* Login Form */}
           <View className="mt-8">
             <View className="mb-5">
-              <Text className="text-base font-medium text-gray-800 mb-2">
+              <CustomText className="text-base text-gray-800 mb-2">
                 Email
-              </Text>
+              </CustomText>
               <TextInput
                 className="h-12 bg-gray-100 rounded-lg px-4 text-base text-gray-800 border border-gray-200"
                 placeholder="Enter your email"
@@ -109,9 +110,9 @@ const LoginScreen = () => {
             </View>
 
             <View className="mb-5">
-              <Text className="text-base font-medium text-gray-800 mb-2">
+              <CustomText className="text-base text-gray-800 mb-2">
                 Password
-              </Text>
+              </CustomText>
               <View className="relative flex-row items-center">
                 <TextInput
                   className="h-12 bg-gray-100 rounded-lg px-4 text-base text-gray-800 border border-gray-200 flex-1"
@@ -139,18 +140,15 @@ const LoginScreen = () => {
                 onPress={handleForgotPassword}
                 disabled={isLoading}
               >
-                <Text
-                  style={{ color: primaryColor }}
-                  className="text-sm font-medium"
-                >
+                <CustomText className="text-sm text-[#1FA6DE]">
                   Forgot Password?
-                </Text>
+                </CustomText>
               </TouchableOpacity>
             </View>
 
             <TouchableOpacity
               style={{
-                backgroundColor: primaryColor,
+                backgroundColor: "#1FA6DE",
                 opacity: isLoading ? 0.7 : 1,
               }}
               className="h-12 rounded-lg justify-center items-center mt-5"
@@ -160,7 +158,12 @@ const LoginScreen = () => {
               {isLoading ? (
                 <ActivityIndicator color="white" />
               ) : (
-                <Text className="text-white text-base font-bold">Login</Text>
+                <CustomText
+                  fontFamily="Poppins-SemiBold"
+                  className="text-white text-base"
+                >
+                  Login
+                </CustomText>
               )}
             </TouchableOpacity>
           </View>

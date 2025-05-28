@@ -1,27 +1,26 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
-import CardComponent from "@components/common/Card/CardComponent";
-import DatePicker from "@components/common/DatePicker/DatePickerComponent";
+import { View, StyleSheet } from "react-native";
+import { CustomText, CustomCard, CustomDatePicker } from "@components/common";
 
 const FilterDate = () => {
   return (
-    <CardComponent style={styles.container}>
-      <View style={styles.dateWrap}>
-        <View style={styles.labelWrap}>
-          <Text style={styles.labelText}>Start Date</Text>
-          <Text style={styles.required}>*</Text>
+    <CustomCard style={styles.container}>
+      <View className="w-[49%]">
+        <View className="flex-row items-center gap-1">
+          <CustomText className="text-sm">Start Date</CustomText>
+          <CustomText className="text-red-500">*</CustomText>
         </View>
-        <DatePicker onDateSelected={() => {}} style={styles.dateItem} />
+        <CustomDatePicker onDateSelected={() => {}} style={styles.dateItem} />
       </View>
 
-      <View style={styles.dateWrap}>
-        <View style={styles.labelWrap}>
-          <Text style={styles.labelText}>End Date</Text>
-          <Text style={styles.required}>*</Text>
+      <View className="w-[49%]">
+        <View className="flex-row items-center gap-1">
+          <CustomText className="text-sm">End Date</CustomText>
+          <CustomText className="text-red-500">*</CustomText>
         </View>
-        <DatePicker onDateSelected={() => {}} style={styles.dateItem} />
+        <CustomDatePicker onDateSelected={() => {}} style={styles.dateItem} />
       </View>
-    </CardComponent>
+    </CustomCard>
   );
 };
 
@@ -32,23 +31,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     gap: 8,
-  },
-  dateWrap: {
-    flexDirection: "column",
-    width: "49%",
-  },
-  labelWrap: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 2, // small gap between label and star
-  },
-  labelText: {
-    fontSize: 12,
-    color: "#000",
-  },
-  required: {
-    fontSize: 14,
-    color: "red",
   },
   dateItem: {
     marginTop: 4,

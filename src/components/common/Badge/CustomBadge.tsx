@@ -80,7 +80,7 @@ const sizeStyles = {
   },
 };
 
-const BadgeComponent: React.FC<BadgeProps> = ({
+const CustomBadge: React.FC<BadgeProps> = ({
   label,
   status = "info",
   variant = "solid",
@@ -123,7 +123,9 @@ const BadgeComponent: React.FC<BadgeProps> = ({
 
   return (
     <View style={containerStyle}>
-      <Text style={textStyle}>{label}</Text>
+      <Text className="font-poppins-regular" style={textStyle}>
+        {label}
+      </Text>
     </View>
   );
 };
@@ -138,4 +140,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default BadgeComponent;
+export default CustomBadge;

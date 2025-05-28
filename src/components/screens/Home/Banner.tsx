@@ -1,6 +1,6 @@
 import { View, Text, ImageBackground } from "react-native";
 import React from "react";
-import ButtonComponent from "@components/common/Button/ButtonComponent";
+import { CustomButton } from "@components/common";
 import { useTranslation } from "react-i18next";
 import { useNavigation } from "@react-navigation/native";
 
@@ -19,23 +19,25 @@ export default function Banner() {
         resizeMode="cover"
       >
         <View className="p-5">
-          <Text className="text-white font-bold text-lg w-[65%]  ">
+          <Text className="text-white font-poppins-semibold w-[70%]">
             {t("bannerMessage")}
           </Text>
           <View className="mt-10 flex-row gap-2 justify-end relative">
-            <ButtonComponent
+            <CustomButton
               title={t("btnStartScalling")}
               onPress={() => {}}
               backgroundColor="#08ABDE"
               borderRadius={5}
               size="small"
+              textStyle={{ fontFamily: "Poppins-SemiBold" }}
             />
-            <ButtonComponent
+            <CustomButton
               title={t("btnFollowUp")}
               onPress={() => openFollowUpScreen()}
               backgroundColor="#08ABDE"
               borderRadius={5}
               size="small"
+              textStyle={{ fontFamily: "Poppins-SemiBold" }}
             />
           </View>
         </View>

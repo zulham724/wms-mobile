@@ -1,19 +1,19 @@
-import React from 'react';
+import React from "react";
 import {
   TouchableOpacity,
-  Text,
   View,
   StyleSheet,
   StyleProp,
   ViewStyle,
   TextStyle,
-} from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
+} from "react-native";
+import Icon from "react-native-vector-icons/Ionicons";
+import { CustomText } from "@components/common";
 
-type ButtonSize = 'small' | 'medium' | 'large';
-type ButtonVariant = 'solid' | 'outline';
+type ButtonSize = "small" | "medium" | "large";
+type ButtonVariant = "solid" | "outline";
 
-type ButtonComponentProps = {
+type CustomButtonProps = {
   title: string;
   onPress: () => void;
   size?: ButtonSize;
@@ -37,7 +37,7 @@ const sizeStyles = {
   },
   medium: {
     paddingVertical: 6,
-    paddingHorizontal: 18,
+    paddingHorizontal: 20,
     fontSize: 16,
     iconSize: 18,
   },
@@ -49,12 +49,12 @@ const sizeStyles = {
   },
 };
 
-const ButtonComponent: React.FC<ButtonComponentProps> = ({
+const CustomButton: React.FC<CustomButtonProps> = ({
   title,
   onPress,
-  size = 'medium',
-  variant = 'solid',
-  backgroundColor = '#4CAF50',
+  size = "medium",
+  variant = "solid",
+  backgroundColor = "#4CAF50",
   textColor,
   borderRadius = 10,
   textStyle,
@@ -64,26 +64,26 @@ const ButtonComponent: React.FC<ButtonComponentProps> = ({
   borderColor,
 }) => {
   const currentSize = sizeStyles[size];
-  
+
   // Calculate styles based on variant
   const getVariantStyles = () => {
     switch (variant) {
-      case 'outline':
+      case "outline":
         return {
-          backgroundColor: 'transparent',
+          backgroundColor: "transparent",
           borderColor: borderColor || backgroundColor,
           borderWidth: 1,
           buttonTextColor: textColor || backgroundColor,
           buttonIconColor: iconColor || textColor || backgroundColor,
         };
-      case 'solid':
+      case "solid":
       default:
         return {
           backgroundColor: backgroundColor,
-          borderColor: 'transparent',
+          borderColor: "transparent",
           borderWidth: 0,
-          buttonTextColor: textColor || '#fff',
-          buttonIconColor: iconColor || textColor || '#fff',
+          buttonTextColor: textColor || "#fff",
+          buttonIconColor: iconColor || textColor || "#fff",
         };
     }
   };
@@ -105,7 +105,8 @@ const ButtonComponent: React.FC<ButtonComponentProps> = ({
         },
         buttonStyle,
       ]}
-      activeOpacity={0.8}>
+      activeOpacity={0.8}
+    >
       <View style={styles.content}>
         {iconName && (
           <Icon
@@ -115,17 +116,18 @@ const ButtonComponent: React.FC<ButtonComponentProps> = ({
             style={styles.icon}
           />
         )}
-        <Text
+        <CustomText
           style={[
-            styles.text, 
             {
               fontSize: currentSize.fontSize,
               color: variantStyles.buttonTextColor,
-            }, 
-            textStyle
-          ]}>
+            },
+            textStyle,
+          ]}
+          fontFamily="Poppins-SemiBold"
+        >
           {title}
-        </Text>
+        </CustomText>
       </View>
     </TouchableOpacity>
   );
@@ -133,21 +135,17 @@ const ButtonComponent: React.FC<ButtonComponentProps> = ({
 
 const styles = StyleSheet.create({
   button: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexDirection: 'row',
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "row",
   },
   content: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
   },
   icon: {
     marginRight: 8,
   },
-  text: {
-    fontWeight: '600',
-    fontFamily: 'Roboto-Regular',
-  },
 });
 
-export default ButtonComponent;
+export default CustomButton;

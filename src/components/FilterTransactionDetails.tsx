@@ -1,7 +1,7 @@
-import React, {useState} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
-import DropDownPicker from 'react-native-dropdown-picker';
-import ButtonComponent from './common/Button/ButtonComponent';
+import React, { useState } from "react";
+import { View, Text, StyleSheet } from "react-native";
+import DropDownPicker from "react-native-dropdown-picker";
+import { CustomButton } from "@components/common";
 
 const FilterTransactionDetails = () => {
   const [classificationOpen, setClassificationOpen] = useState(false);
@@ -11,15 +11,15 @@ const FilterTransactionDetails = () => {
   const [selectedAction, setSelectedAction] = useState(null);
 
   const [classificationItems, setClassificationItems] = useState([
-    {label: 'Plastic', value: 'plastic'},
-    {label: 'Paper', value: 'paper'},
-    {label: 'Metal', value: 'metal'},
+    { label: "Plastic", value: "plastic" },
+    { label: "Paper", value: "paper" },
+    { label: "Metal", value: "metal" },
   ]);
 
   const [actionItems, setActionItems] = useState([
-    {label: 'Recycle', value: 'recycle'},
-    {label: 'Dispose', value: 'dispose'},
-    {label: 'Reuse', value: 'reuse'},
+    { label: "Recycle", value: "recycle" },
+    { label: "Dispose", value: "dispose" },
+    { label: "Reuse", value: "reuse" },
   ]);
 
   const handleReset = () => {
@@ -28,7 +28,7 @@ const FilterTransactionDetails = () => {
   };
 
   const handleSubmit = () => {
-    console.log('Submitted:', {
+    console.log("Submitted:", {
       classification: selectedClassification,
       action: selectedAction,
     });
@@ -68,20 +68,21 @@ const FilterTransactionDetails = () => {
 
       <View style={styles.buttonContainer}>
         <View style={styles.button}>
-          <ButtonComponent
+          <CustomButton
             title="Reset"
             backgroundColor="#D0D0D0"
             onPress={handleReset}
-            borderRadius={0}
+            borderRadius={4}
             size="medium"
+            textColor="#7D7D7D"
           />
         </View>
         <View style={styles.button}>
-          <ButtonComponent
+          <CustomButton
             title="Submit"
             onPress={handleSubmit}
             backgroundColor="#08ABDE"
-            borderRadius={0}
+            borderRadius={4}
             size="medium"
           />
         </View>
@@ -93,11 +94,11 @@ const FilterTransactionDetails = () => {
 const styles = StyleSheet.create({
   container: {
     marginTop: 20,
-    width: '100%',
+    width: "100%",
   },
   text: {
     fontSize: 14,
-    fontWeight: '600',
+    fontWeight: "600",
     marginBottom: 8,
     zIndex: -1,
   },
@@ -107,15 +108,15 @@ const styles = StyleSheet.create({
     // backgroundColor: '#fff',
   },
   dropdown: {
-    borderColor: '#ccc',
-    backgroundColor: '#f9f9f9',
+    borderColor: "#ccc",
+    backgroundColor: "#f9f9f9",
   },
   dropdownList: {
-    borderColor: '#ccc',
+    borderColor: "#ccc",
   },
   buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
     marginTop: 16,
     gap: 8,
   },

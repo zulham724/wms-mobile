@@ -1,16 +1,11 @@
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  TextInput,
-  StyleSheet,
-} from "react-native";
+import { View, TouchableOpacity, TextInput, StyleSheet } from "react-native";
 import { useTranslation } from "react-i18next";
 import React from "react";
 import { MaterialIcons } from "@expo/vector-icons";
 import TransactionsDetailsItem from "@components/TransactionsDetailsItem";
 import { useDispatch } from "react-redux";
 import { setIsBottomSheetVisible } from "@services/features/navigationSlice";
+import {CustomText} from "@components/common";
 
 export default function TransactionDetails() {
   const { t } = useTranslation();
@@ -21,10 +16,10 @@ export default function TransactionDetails() {
   };
 
   return (
-    <View className="flex-1 mt-5 mb-14">
-      <Text className="font-semibold text-base text-start w-full">
+    <View className="flex-1 mt-4 mb-14">
+      <CustomText className="text-start" fontFamily="Poppins-SemiBold">
         {t("transactionDetailsTitle")}
-      </Text>
+      </CustomText>
       <View className="flex-row justify-between items-center mt-4">
         <View style={styles.searchContainer}>
           <MaterialIcons

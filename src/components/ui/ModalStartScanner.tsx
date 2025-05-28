@@ -1,6 +1,6 @@
 import { View, StyleSheet, Modal } from "react-native";
 import React from "react";
-import ButtonComponent from "@components/common/Button/ButtonComponent";
+import { CustomButton } from "@components/common";
 import { useDispatch, useSelector } from "react-redux";
 import {
   setIsModalScannerVisible,
@@ -31,7 +31,7 @@ export default function ModalStartScanner() {
     >
       <View style={styles.modalOverlay}>
         <View style={styles.modalContent}>
-          <ButtonComponent
+          <CustomButton
             title="Scan QR Code"
             onPress={handleOpenScanner}
             backgroundColor="transparent"

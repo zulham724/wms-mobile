@@ -1,7 +1,7 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { useTranslation } from "react-i18next";
-import CardComponent from "../../common/Card/CardComponent";
+import { CustomText, CustomCard } from "@components/common";
 
 type CardItemProps = {
   title: string;
@@ -15,11 +15,15 @@ const CardItem: React.FC<CardItemProps> = ({
   transaction,
 }: CardItemProps) => {
   return (
-    <CardComponent style={styles.card}>
-      <Text>{title}</Text>
-      <Text style={styles.weight}>{weight}</Text>
-      <Text style={styles.transaction}>({transaction})</Text>
-    </CardComponent>
+    <CustomCard style={styles.card}>
+      <CustomText>{title}</CustomText>
+      <CustomText className="mt-2 text-sm" fontFamily="Poppins-Bold">
+        {weight}
+      </CustomText>
+      <CustomText className="text-sm" fontFamily="Poppins-Italic">
+        ({transaction})
+      </CustomText>
+    </CustomCard>
   );
 };
 
@@ -45,7 +49,9 @@ const WasteRecap: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      <Text className="text-base font-semibold">{t("wasteRecapTitle")}</Text>
+      <CustomText fontFamily="Poppins-SemiBold">
+        {t("wasteRecapTitle")}
+      </CustomText>
       <View style={styles.cardContainer}>
         {cardItems.map((item, index) => (
           <CardItem

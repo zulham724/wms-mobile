@@ -2,7 +2,7 @@ import React, { useRef, useState, useCallback, useEffect } from "react";
 import { View, StyleSheet } from "react-native";
 import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
 
-const BottomSheetComponent = ({
+const CustomBottomSheet = ({
   vision,
   children,
   onClose,
@@ -125,4 +125,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default BottomSheetComponent;
+export default CustomBottomSheet;

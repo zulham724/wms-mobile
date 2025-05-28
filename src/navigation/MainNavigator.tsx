@@ -13,7 +13,7 @@ import {
 } from "react-native";
 
 import { useDispatch, useSelector } from "react-redux";
-import BottomSheetComponent from "@components/common/BottomSheet/BottomSheetComponent";
+import { CustomBottomSheet } from "@components/common";
 import {
   NavigationStateInterface,
   setIsBottomSheetVisible,
@@ -22,7 +22,7 @@ import {
 import FilterTransactionDetails from "@components/FilterTransactionDetails";
 import { useNavigation } from "@react-navigation/native";
 import TransactionDetailsSheet from "@components/TransactionDetailSheet";
-import FloatingButtonScanner from "@components/common/Button/FloatingButtonScanner";
+import FloatingButtonScanner from "@components/ui/FloatingButtonScanner";
 
 // Define the type untuk Stack Navigator yang berisi Home dan layar tambahan
 export type HomeStackParamList = {
@@ -125,7 +125,7 @@ const MainNavigator = () => {
 
       {/* Bottom sheets dari HomeScreen bisa dipindah ke sini */}
       {!navigationState.isModalScannerVisible && (
-        <BottomSheetComponent
+        <CustomBottomSheet
           vision={navigationState.isBottomSheetVisible}
           onClose={closeBottomSheet}
         >
@@ -133,15 +133,15 @@ const MainNavigator = () => {
             <Text className="text-lg font-semibold">Filter</Text>
             <FilterTransactionDetails />
           </View>
-        </BottomSheetComponent>
+        </CustomBottomSheet>
       )}
       {!navigationState.isModalScannerVisible && (
-        <BottomSheetComponent
+        <CustomBottomSheet
           vision={navigationState.isTransactionVisible}
           onClose={closeTransactionSheet}
         >
           <TransactionDetailsSheet />
-        </BottomSheetComponent>
+        </CustomBottomSheet>
       )}
 
       <FloatingButtonScanner />

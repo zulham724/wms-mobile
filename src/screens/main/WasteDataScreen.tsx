@@ -7,12 +7,10 @@ import {
   Platform,
 } from "react-native";
 import React, { useState, useCallback } from "react";
-import CardComponent from "@components/common/Card/CardComponent";
-import BadgeComponent from "@components/common/Badge/BadgeComponent";
 import { Ionicons } from "@expo/vector-icons";
 import GlobalWrapper from "@components/ui/GlobalWrapper";
 import DropDownPicker from "react-native-dropdown-picker";
-import ButtonComponent from "@components/common/Button/ButtonComponent";
+import { CustomButton, CustomBadge, CustomCard } from "@components/common";
 
 // Custom checkbox component
 const CustomCheckbox = ({
@@ -115,42 +113,53 @@ export default function WasteDataScreen() {
             <View className="mb-4 flex-row items-center" key={index}>
               {/* Card component takes remaining space */}
               <View className="flex-1">
-                <CardComponent style={styles.cardContainer}>
+                <CustomCard style={styles.cardContainer}>
                   <View className="flex-row justify-between items-center w-full">
                     <View className="flex-1">
                       <View className="flex-row flex-wrap gap-2 mb-2">
-                        <BadgeComponent
+                        <CustomBadge
                           status="success"
                           label="Hazardous"
                           customContainerStyle={styles.badgeContainerStyle}
+                          size="medium"
                         />
-                        <BadgeComponent
+                        <CustomBadge
                           status="success"
                           label="Medical Waste"
                           customContainerStyle={styles.badgeContainerStyle}
+                          size="medium"
                         />
-                        <BadgeComponent
+                        <CustomBadge
                           status="success"
                           label="Unsegregated"
                           customContainerStyle={styles.badgeContainerStyle}
+                          size="medium"
                         />
                       </View>
                       <View className="flex-row flex-wrap gap-2">
-                        <BadgeComponent
+                        <CustomBadge
                           status="info"
                           label="Temporary Storage"
+                          size="medium"
                           customContainerStyle={styles.badgeContainerStyle}
+                          customTextStyle={{
+                            fontFamily: "Poppins-SemiBold",
+                          }}
                         />
-                        <BadgeComponent
+                        <CustomBadge
                           status="default"
                           variant="outline"
                           label="258,259 kg"
                           customContainerStyle={styles.badgeContainerStyle}
+                          customTextStyle={{
+                            fontFamily: "Poppins-SemiBold",
+                          }}
+                          size="medium"
                         />
                       </View>
                     </View>
                   </View>
-                </CardComponent>
+                </CustomCard>
               </View>
 
               {/* Checkbox positioned first in the row */}
@@ -165,7 +174,7 @@ export default function WasteDataScreen() {
               <Text className="text-lg font-semibold mb-2">Selected Data</Text>
               <View className="flex-row gap-8 items-end">
                 {/* card 1 */}
-                <CardComponent
+                <CustomCard
                   style={[styles.cardContainer, styles.selectedCardContainer]}
                 >
                   <View className="flex-row justify-between items-center w-full">
@@ -178,16 +187,16 @@ export default function WasteDataScreen() {
                     <Text>Sharp</Text>
                     <Text>2</Text>
                   </View>
-                </CardComponent>
+                </CustomCard>
                 {/* card 2 - adjusted to fit content */}
-                <CardComponent
+                <CustomCard
                   style={[styles.cardContainer, styles.selectedCardContainer]}
                 >
                   <View className="flex-row justify-between items-center">
                     <Text>Total Weight</Text>
                     <Text className="ml-4">5</Text>
                   </View>
-                </CardComponent>
+                </CustomCard>
               </View>
 
               <View className="flex-row gap-1 mt-4 mb-2">
@@ -221,7 +230,7 @@ export default function WasteDataScreen() {
               />
 
               <View className="mt-6 items-end">
-                <ButtonComponent
+                <CustomButton
                   variant="outline"
                   borderColor="#08ABDE"
                   textColor="#08ABDE"

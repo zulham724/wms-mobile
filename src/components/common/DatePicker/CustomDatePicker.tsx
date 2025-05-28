@@ -10,12 +10,15 @@ import {
 } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 
-type DatePickerProps = {
+type CustomDatePickerProps = {
   onDateSelected: (date: string) => void;
   style?: ViewStyle; // ✅ ADD THIS
 };
 
-const DatePicker: React.FC<DatePickerProps> = ({ onDateSelected, style }) => {
+const CustomDatePicker: React.FC<CustomDatePickerProps> = ({
+  onDateSelected,
+  style,
+}) => {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [showPicker, setShowPicker] = useState(false);
 
@@ -76,4 +79,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default DatePicker;
+export default CustomDatePicker;

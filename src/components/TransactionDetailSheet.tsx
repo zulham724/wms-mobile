@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, StyleSheet, TextInput, Dimensions } from "react-native";
-import BadgeComponent from "./common/Badge/BadgeComponent";
+import { CustomBadge } from "@components/common";
 import { ScrollView } from "react-native-gesture-handler";
 
 // Mendapatkan tinggi layar untuk membatasi tinggi ScrollView
@@ -46,13 +46,13 @@ const TransactionDetailsSheet = () => {
         {/* Header outside ScrollView untuk tetap terlihat */}
         <View style={styles.header}>
           <View style={styles.badgeContainer}>
-            <BadgeComponent
+            <CustomBadge
               status="default"
               label="No. 1973-19-12-2025"
               variant="solid"
               size="small"
             />
-            <BadgeComponent
+            <CustomBadge
               status="secondary"
               label="11 May 2025"
               variant="solid"

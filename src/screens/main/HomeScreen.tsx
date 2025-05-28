@@ -25,7 +25,7 @@ const HomeScreen: React.FC = () => {
         >
           <View style={styles.container}>
             <View style={styles.wrapContainer}>
-              <Text style={styles.greeting}>{t("greeting")}, Andy</Text>
+              <Text className="font-poppins-semibold">{t("greeting")}, Andy</Text>
               <LanguageDropdown />
             </View>
             <Banner />

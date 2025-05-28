@@ -1,12 +1,15 @@
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { View, TouchableOpacity, StyleSheet } from "react-native";
 import React, { useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
-import CardComponent from "@components/common/Card/CardComponent";
-import DatePicker from "@components/common/DatePicker/DatePickerComponent";
 import DropDownPicker from "react-native-dropdown-picker";
-import ButtonComponent from "@components/common/Button/ButtonComponent";
 import { useNavigation } from "@react-navigation/native";
 import GlobalWrapper from "@components/ui/GlobalWrapper";
+import {
+  CustomText,
+  CustomButton,
+  CustomCard,
+  CustomDatePicker,
+} from "@components/common";
 
 export default function FollowUpScreen() {
   const [classificationOpen, setClassificationOpen] = useState(false);
@@ -48,24 +51,30 @@ export default function FollowUpScreen() {
 
   return (
     <GlobalWrapper title="Follow Up Transaction" showBackAction={true}>
-      <CardComponent style={styles.cardContainer}>
+      <CustomCard style={styles.cardContainer}>
         {/* Start Date */}
         <View className="flex-row justify-between">
           <View className="flex-col w-[49%]">
             <View className="flex-row items-center gap-1">
-              <Text className="text-sm text-black">Start Date</Text>
-              <Text className="text-sm text-red-500">*</Text>
+              <CustomText className="text-sm text-black">Start Date</CustomText>
+              <CustomText className="text-sm text-red-500">*</CustomText>
             </View>
-            <DatePicker onDateSelected={() => {}} style={styles.datePicker} />
+            <CustomDatePicker
+              onDateSelected={() => {}}
+              style={styles.datePicker}
+            />
           </View>
 
           {/* End Date */}
           <View className="flex-col w-[49%]">
             <View className="flex-row items-center gap-1">
-              <Text className="text-sm text-black">End Date</Text>
-              <Text className="text-sm text-red-500">*</Text>
+              <CustomText className="text-sm text-black">End Date</CustomText>
+              <CustomText className="text-sm text-red-500">*</CustomText>
             </View>
-            <DatePicker onDateSelected={() => {}} style={styles.datePicker} />
+            <CustomDatePicker
+              onDateSelected={() => {}}
+              style={styles.datePicker}
+            />
           </View>
         </View>
 
@@ -76,7 +85,9 @@ export default function FollowUpScreen() {
               { zIndex: 3000 }, // Memberikan z-index lebih tinggi untuk dropdown pertama
             ]}
           >
-            <Text style={styles.text}>Waste Classification</Text>
+            <CustomText className="text-sm" fontFamily="Poppins-SemiBold">
+              Waste Classification
+            </CustomText>
             <DropDownPicker
               open={classificationOpen}
               value={selectedClassification}
@@ -109,7 +120,9 @@ export default function FollowUpScreen() {
               { zIndex: 2000 }, // Z-index lebih rendah untuk dropdown kedua
             ]}
           >
-            <Text style={styles.text}>Waste Action Status</Text>
+            <CustomText className="text-sm" fontFamily="Poppins-SemiBold">
+              Waste Action Status
+            </CustomText>
             <DropDownPicker
               open={actionOpen}
               value={selectedAction}
@@ -137,7 +150,7 @@ export default function FollowUpScreen() {
           </View>
         </View>
         <View className="flex-row justify-end w-full">
-          <ButtonComponent
+          <CustomButton
             title="Apply"
             backgroundColor="#08ABDE"
             size="medium"
@@ -145,7 +158,7 @@ export default function FollowUpScreen() {
             onPress={() => goToWasteDataScreen()}
           />
         </View>
-      </CardComponent>
+      </CustomCard>
     </GlobalWrapper>
   );
 }

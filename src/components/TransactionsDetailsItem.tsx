@@ -1,9 +1,8 @@
 import React, { useCallback, useRef } from "react";
-import { View, Text, StyleSheet, Pressable } from "react-native";
-import CardComponent from "./common/Card/CardComponent";
-import BadgeComponent from "./common/Badge/BadgeComponent";
+import { View, StyleSheet, Pressable } from "react-native";
 import { useDispatch } from "react-redux";
 import { setIsTransactionVisible } from "@services/features/navigationSlice";
+import { CustomText, CustomBadge, CustomCard } from "@components/common";
 
 interface BadgeProps {
   status: "success" | "error" | "warning" | "info" | "default";
@@ -12,7 +11,7 @@ interface BadgeProps {
 
 const SolidBadge: React.FC<BadgeProps> = ({ status, label }) => {
   return (
-    <BadgeComponent
+    <CustomBadge
       status={status}
       label={label}
       variant="solid"
@@ -20,22 +19,27 @@ const SolidBadge: React.FC<BadgeProps> = ({ status, label }) => {
         padding: 10,
         width: "31%",
       }}
-      customTextStyle={{ textAlign: "center", fontSize: 10, fontWeight: 400 }}
+      size="medium"
+      customTextStyle={{ textAlign: "center" }}
     />
   );
 };
 
 const OutlineBadge: React.FC<BadgeProps> = ({ status, label }) => {
   return (
-    <BadgeComponent
+    <CustomBadge
       status={status}
       label={label}
       variant="outline"
+      size="medium"
       customContainerStyle={{
         padding: 10,
         width: "31%",
       }}
-      customTextStyle={{ textAlign: "center", fontSize: 10, fontWeight: 400 }}
+      customTextStyle={{
+        textAlign: "center",
+        fontFamily: "Poppins-SemiBold",
+      }}
     />
   );
 };
@@ -51,16 +55,17 @@ const TransactionsDetailsItem = () => {
       {/* Adjusted Search and Filter Row */}
 
       <Pressable onPress={onOpenTransactionDetails}>
-        <CardComponent style={styles.card}>
+        <CustomCard style={styles.card}>
           <View style={styles.badgeContainer}>
             <View style={styles.wasteActionStart}>
-              <BadgeComponent
+              <CustomBadge
                 status="default"
                 label="No. 1973-19-12-2025"
                 variant="solid"
                 size="small"
+                customTextStyle={{ fontFamily: "Poppins-SemiBold" }}
               />
-              <BadgeComponent
+              <CustomBadge
                 status="secondary"
                 label="11 May 2025"
                 variant="solid"
@@ -74,13 +79,21 @@ const TransactionsDetailsItem = () => {
             <OutlineBadge status="default" label="Stored" />
             <OutlineBadge status="default" label="258,259 kg" />
             <View style={styles.wasteActionEnd}>
-              <Text style={styles.wasteActionTextBlack}>Waste Action End:</Text>
-              <Text style={styles.wasteActionTextRed}>
+              <CustomText
+                className="text-black text-[10px]"
+                fontFamily="Poppins-SemiBold"
+              >
+                Waste Action End:
+              </CustomText>
+              <CustomText
+                className="text-red-500 text-[10px]"
+                fontFamily="Poppins-SemiBold"
+              >
                 13 May 2025 12:00:00 PM
-              </Text>
+              </CustomText>
             </View>
           </View>
-        </CardComponent>
+        </CustomCard>
       </Pressable>
     </View>
   );

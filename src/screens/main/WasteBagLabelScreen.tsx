@@ -1,13 +1,8 @@
 import React, { useState } from "react";
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  ScrollView,
-  TextInput,
-} from "react-native";
+import { View, TouchableOpacity, ScrollView, TextInput } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import GlobalWrapper from "@components/ui/GlobalWrapper";
+import { CustomText } from "@components/common";
 
 const WasteBagLabelScreen: React.FC = () => {
   const [activeTab, setActiveTab] = useState<"internet" | "bluetooth">(
@@ -30,8 +25,12 @@ const WasteBagLabelScreen: React.FC = () => {
   const renderInfoItem = (label: string, value: string) => {
     return (
       <View className="flex-row py-4 border-b border-gray-200">
-        <Text className="flex-1 text-gray-600 font-medium">{label}</Text>
-        <Text className="flex-1 text-gray-800">{value}</Text>
+        <CustomText className="flex-1 text-gray-600 text-sm">
+          {label}
+        </CustomText>
+        <CustomText className="flex-1 text-gray-800 text-sm">
+          {value}
+        </CustomText>
       </View>
     );
   };
@@ -45,27 +44,41 @@ const WasteBagLabelScreen: React.FC = () => {
             <View className="py-3 border-b border-gray-200">
               <View className="flex-row items-center justify-between">
                 <TouchableOpacity
-                  className="bg-[#2EA5CB] px-5 py-2 rounded-md"
+                  className="border border-[#008DBA] bg-white px-8 py-1 rounded-md"
                   onPress={() => console.log("Get weight from device")}
                 >
-                  <Text className="text-white font-medium">Get Weight</Text>
+                  <CustomText
+                    className="text-[#008DBA]"
+                    fontFamily="Poppins-SemiBold"
+                  >
+                    Get
+                  </CustomText>
                 </TouchableOpacity>
 
                 <View className="flex-row items-center">
-                  <Text className="text-gray-600 mr-2">Weight:</Text>
+                  <CustomText className="text-gray-600 mr-2">
+                    Weight:
+                  </CustomText>
                   <TextInput
                     className="bg-gray-100 px-3 py-1 rounded border border-gray-300 w-24 text-center"
                     value={weight}
                     editable={false}
                     selectTextOnFocus={false}
                   />
-                  <Text className="text-gray-600 ml-2">KG</Text>
+                  <CustomText
+                    className="text-gray-600 ml-2"
+                    fontFamily="Poppins-SemiBold"
+                  >
+                    KG
+                  </CustomText>
                 </View>
               </View>
             </View>
 
             <View className="mt-4">
-              <Text className="font-semibold mb-2">Bin Number</Text>
+              <CustomText className="mb-2" fontFamily="Poppins-SemiBold">
+                Bin Number
+              </CustomText>
               <TextInput
                 className="bg-gray-100 border border-gray-300 rounded-md px-4 py-2 mb-4"
                 placeholder="Input bin number"
@@ -76,19 +89,27 @@ const WasteBagLabelScreen: React.FC = () => {
 
               <View className="flex-row justify-between mt-2">
                 <TouchableOpacity
-                  className="bg-gray-200 px-4 py-2 rounded-md"
+                  className="bg-white px-4 items-center justify-center rounded-md border border-[#008DBA]"
                   onPress={() => console.log("Request Manual")}
                 >
-                  <Text className="font-medium text-gray-700">
+                  <CustomText
+                    className="font-medium text-[#008DBA]"
+                    fontFamily="Poppins-SemiBold"
+                  >
                     Request Manual
-                  </Text>
+                  </CustomText>
                 </TouchableOpacity>
 
                 <TouchableOpacity
-                  className="bg-[#08ABDE] px-6 py-2 rounded-md"
+                  className="bg-[#08ABDE] px-6 items-center justify-center rounded-md py-2"
                   onPress={() => console.log("Submit", binNumber)}
                 >
-                  <Text className="font-medium text-white">Submit</Text>
+                  <CustomText
+                    className="font-medium text-white"
+                    fontFamily="Poppins-SemiBold"
+                  >
+                    Submit
+                  </CustomText>
                 </TouchableOpacity>
               </View>
             </View>
@@ -99,12 +120,12 @@ const WasteBagLabelScreen: React.FC = () => {
           <View className="bg-white p-4 rounded-b-lg">
             <View className="items-center py-2">
               <Ionicons name="bluetooth" size={32} color="#2EA5CB" />
-              <Text className="text-base font-medium mt-2">
+              <CustomText className="text-base font-medium mt-2">
                 Bluetooth Devices
-              </Text>
-              <Text className="text-gray-600 text-sm mt-1 text-center">
+              </CustomText>
+              <CustomText className="text-gray-600 text-sm mt-1 text-center">
                 Connect to nearby Bluetooth devices
-              </Text>
+              </CustomText>
             </View>
 
             {/* Sample Bluetooth Devices */}
@@ -147,13 +168,13 @@ const WasteBagLabelScreen: React.FC = () => {
                 size={18}
                 color={activeTab === "internet" ? "#2EA5CB" : "#6B7280"}
               />
-              <Text
+              <CustomText
                 className={`ml-2 font-medium ${
                   activeTab === "internet" ? "text-[#2EA5CB]" : "text-gray-500"
                 }`}
               >
                 Internet
-              </Text>
+              </CustomText>
             </TouchableOpacity>
 
             <TouchableOpacity
@@ -169,13 +190,13 @@ const WasteBagLabelScreen: React.FC = () => {
                 size={18}
                 color={activeTab === "bluetooth" ? "#2EA5CB" : "#6B7280"}
               />
-              <Text
+              <CustomText
                 className={`ml-2 font-medium ${
                   activeTab === "bluetooth" ? "text-[#2EA5CB]" : "text-gray-500"
                 }`}
               >
                 Bluetooth
-              </Text>
+              </CustomText>
             </TouchableOpacity>
           </View>
 
