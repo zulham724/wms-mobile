@@ -4,6 +4,7 @@ import CustomBottomSheet from "./BottomSheet/CustomBottomSheet";
 import CustomButton from "./Button/CustomButton";
 import CustomCard from "./Card/CustomCard";
 import CustomDatePicker from "./DatePicker/CustomDatePicker";
+import CustomModalConfirmation from "./Modal/CustomModalConfirmation";
 
 export {
   CustomText,
@@ -12,4 +13,5 @@ export {
   CustomButton,
   CustomCard,
   CustomDatePicker,
+  CustomModalConfirmation,
 };

@@ -30,7 +30,7 @@ import {
 const { width: screenWidth, height: screenHeight } = Dimensions.get("screen");
 
 export default function ScannerBarcode() {
-  const [flashMode, setFlashMode] = useState<FlashMode>("on");
+  const [flashMode, setFlashMode] = useState<FlashMode>("off");
   const [permission, requestPermission] = useCameraPermissions();
   const [scanned, setScanned] = useState(false);
 

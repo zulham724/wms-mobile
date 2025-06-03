@@ -2,20 +2,24 @@ import React, { useRef, useState, useCallback, useEffect } from "react";
 import { View, StyleSheet } from "react-native";
 import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
 
-const CustomBottomSheet = ({
-  vision,
-  children,
-  onClose,
-}: {
+type BottomSheetProps = {
   vision: boolean;
   children: React.ReactNode;
   onClose?: () => void;
+  initialSnapIndex?: number; // Properti untuk mengatur snap index custom
+};
+
+const CustomBottomSheet: React.FC<BottomSheetProps> = ({
+  vision,
+  children,
+  onClose,
+  initialSnapIndex = 0, // default ke 0 jika tidak diberikan
 }) => {
   // ref untuk BottomSheet
   const bottomSheetRef = useRef<BottomSheet>(null);
 
   // State untuk kontrol tinggi BottomSheet
-  const [snapIndex, setSnapIndex] = useState(-1); // 0, 1, 2 untuk snap points yang berbeda
+  const [snapIndex, setSnapIndex] = useState<number>(-1); // 0, 1, 2 untuk snap points yang berbeda
 
   // snap points
   const snapPoints = ["50%", "70%", "95%"];
@@ -47,8 +51,6 @@ const CustomBottomSheet = ({
   // Memperluas atau mengubah posisi sheet berdasarkan snapIndex
   useEffect(() => {
     if (bottomSheetRef.current) {
-      console.log(bottomSheetRef.current, "bottomSheetRef.current");
-      console.log("snapIndex:", snapIndex);
       if (snapIndex >= 0) {
         bottomSheetRef.current.snapToIndex(snapIndex);
       } else {
@@ -58,19 +60,16 @@ const CustomBottomSheet = ({
   }, [snapIndex]);
 
   useEffect(() => {
+    // Set snapIndex sesuai kondisi saat BottomSheet pertama kali muncul
     if (vision) {
-      setSnapIndex(0); // expand when vision is true
+      setSnapIndex(initialSnapIndex); // Set snapIndex sesuai initialSnapIndex
     } else {
-      closeSheet(); // close sheet when vision is false
+      closeSheet(); // close sheet saat vision false
     }
-  }, [vision, closeSheet]);
+  }, [vision, initialSnapIndex, closeSheet]);
 
-  console.log(vision, "vision");
   return (
-    <View
-      style={styles.container}
-      // className={`${vision ? "absolute visible top-0 left-0 right-0 bottom-0" : "relative hidden"}`}
-    >
+    <View style={styles.container}>
       <BottomSheet
         ref={bottomSheetRef}
         index={snapIndex}
@@ -99,8 +98,6 @@ const styles = StyleSheet.create({
     right: 0,
     top: 0,
     bottom: 0,
-    // zIndex: 10
-    // borderTopStartRadius: 30,
   },
   bottomSheetContainer: {
     width: "100%",
@@ -117,11 +114,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: "100%", // Pastikan konten full width
     padding: 20,
-  },
-  closeButtonContainer: {
-    width: "100%",
-    alignItems: "flex-end",
-    marginBottom: 10,
   },
 });
 

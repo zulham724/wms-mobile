@@ -139,6 +139,7 @@ const MainNavigator = () => {
         <CustomBottomSheet
           vision={navigationState.isTransactionVisible}
           onClose={closeTransactionSheet}
+          initialSnapIndex={2}
         >
           <TransactionDetailsSheet />
         </CustomBottomSheet>

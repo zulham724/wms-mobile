@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, StyleSheet, TextInput, Dimensions } from "react-native";
-import { CustomBadge } from "@components/common";
+import { CustomBadge, CustomText } from "@components/common";
 import { ScrollView } from "react-native-gesture-handler";
 
 // Mendapatkan tinggi layar untuk membatasi tinggi ScrollView
@@ -8,12 +8,12 @@ const { height: screenHeight } = Dimensions.get("window");
 
 const DataItem = ({ label, value }: { label: string; value: string }) => {
   return (
-    <View style={styles.dataItemContainer}>
-      <Text style={styles.label}>{label}</Text>
+    <View className="w-full flex-row justify-between items-center mb-2">
+      <CustomText className="text-xs w-1/2">{label}</CustomText>
       <TextInput
         value={value ?? "-"}
         editable={false}
-        style={styles.readOnlyInput}
+        className="border border-gray-300 rounded-lg px-3 py-2 bg-[#EFF1F4] text-black mt-1 w-1/2 text-xs font-poppins-regular"
         placeholder="value"
       />
     </View>
@@ -44,8 +44,8 @@ const TransactionDetailsSheet = () => {
         nestedScrollEnabled={true} // Penting untuk nested scrolling dalam BottomSheet
       >
         {/* Header outside ScrollView untuk tetap terlihat */}
-        <View style={styles.header}>
-          <View style={styles.badgeContainer}>
+        <View>
+          <View className="w-full py-2.5 flex flex-row justify-between items-center">
             <CustomBadge
               status="default"
               label="No. 1973-19-12-2025"
@@ -59,20 +59,22 @@ const TransactionDetailsSheet = () => {
               size="small"
             />
           </View>
-          <Text style={styles.title}>Detail Data</Text>
+          <CustomText fontFamily="Poppins-SemiBold" className="my-3 text-base">
+            Detail Data
+          </CustomText>
         </View>
 
-        <View style={styles.contentContainer}>
+        <View>
           {dataItems.map((item, index) => (
             <DataItem key={index} label={item.label} value={item.value} />
           ))}
 
-          <Text style={[styles.title, { marginTop: 20 }]}>
+          <CustomText fontFamily="Poppins-SemiBold" className="text-base mt-5">
             Waste Monitoring
-          </Text>
-          <View style={styles.monitoringWrapper}>
+          </CustomText>
+          <View className="mb-6 items-center px-7">
             {/* Icon Row */}
-            <View style={styles.iconRow}>
+            <View className="flex-row justify-between w-full mb-3">
               <View style={styles.iconContainer}>
                 {/* <BoxIcon width={30} height={30} /> */}
               </View>
@@ -85,7 +87,9 @@ const TransactionDetailsSheet = () => {
             </View>
 
             {/* Timeline Row */}
-            <View style={styles.timelineRow}>
+            <View
+              className="flex-row items-center justify-between w-full"
+            >
               <View style={styles.timelineItem}>
                 <View style={styles.circle} />
               </View>
@@ -155,91 +159,14 @@ const styles = StyleSheet.create({
     width: "100%",
     // maxHeight: screenHeight * 0.7, // membatasi tinggi maksimum
   },
-  header: {
-    backgroundColor: "#fff",
-    paddingBottom: 5,
-    width: "100%",
-  },
   scrollContent: {
     paddingBottom: 20,
-  },
-  contentContainer: {
-    width: "100%",
-    // marginBottom: 50,
-  },
-  badgeContainer: {
-    width: "100%",
-    paddingVertical: 10,
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-  title: {
-    fontSize: 14,
-    fontWeight: "bold",
-    marginVertical: 12,
-  },
-  text: {
-    fontSize: 20,
-    fontWeight: "bold",
-  },
-  fieldContainer: {
-    width: "100%",
-    paddingVertical: 10,
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 12,
-  },
-  dataItemContainer: {
-    width: "100%",
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: 8,
-  },
-  label: {
-    fontWeight: "400",
-    fontSize: 12,
-    width: "50%",
-  },
-  readOnlyInput: {
-    borderWidth: 1,
-    borderColor: "#ccc",
-    borderRadius: 8,
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    backgroundColor: "#f2f2f2",
-    color: "#000",
-    marginTop: 4,
-    width: "50%",
-    fontSize: 12,
-  },
-  monitoringWrapper: {
-    marginTop: 16,
-    marginBottom: 24,
-    alignItems: "center",
-    paddingHorizontal: 28,
-  },
-  iconRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    width: "100%",
-    marginBottom: 12,
   },
   iconContainer: {
     width: 30,
     height: 30,
     alignItems: "center",
     justifyContent: "center",
-  },
-  timelineRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    width: "100%",
-    justifyContent: "space-between",
   },
   timelineItem: {
     width: 30, // Same width as iconContainer

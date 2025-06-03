@@ -2,14 +2,21 @@ import React, { useState } from "react";
 import { View, TouchableOpacity, ScrollView, TextInput } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import GlobalWrapper from "@components/ui/GlobalWrapper";
-import { CustomText } from "@components/common";
+import {
+  CustomButton,
+  CustomText,
+  CustomModalConfirmation,
+} from "@components/common";
 
 const WasteBagLabelScreen: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<"internet" | "bluetooth">(
-    "internet"
-  );
+  const [activeTab, setActiveTab] = useState<
+    "internet" | "bluetooth" | "manual"
+  >("internet");
   const [weight, setWeight] = useState<string>("0.0");
   const [binNumber, setBinNumber] = useState<string>("");
+  const [trolleyNumber, setTrolleyNumber] = useState<string>("");
+  const [isOpenConfirmationModal, setIsOpenConfirmationModal] =
+    useState<boolean>(false);
 
   const wasteData = {
     "Waste Group Source": "Clinical Waste",
@@ -33,113 +40,6 @@ const WasteBagLabelScreen: React.FC = () => {
         </CustomText>
       </View>
     );
-  };
-
-  const renderTabContent = () => {
-    switch (activeTab) {
-      case "internet":
-        return (
-          <View className="bg-white p-4 rounded-b-lg">
-            {/* Weight Input Section - Dirapikan */}
-            <View className="py-3 border-b border-gray-200">
-              <View className="flex-row items-center justify-between">
-                <TouchableOpacity
-                  className="border border-[#008DBA] bg-white px-8 py-1 rounded-md"
-                  onPress={() => console.log("Get weight from device")}
-                >
-                  <CustomText
-                    className="text-[#008DBA]"
-                    fontFamily="Poppins-SemiBold"
-                  >
-                    Get
-                  </CustomText>
-                </TouchableOpacity>
-
-                <View className="flex-row items-center">
-                  <CustomText className="text-gray-600 mr-2">
-                    Weight:
-                  </CustomText>
-                  <TextInput
-                    className="bg-gray-100 px-3 py-1 rounded border border-gray-300 w-24 text-center"
-                    value={weight}
-                    editable={false}
-                    selectTextOnFocus={false}
-                  />
-                  <CustomText
-                    className="text-gray-600 ml-2"
-                    fontFamily="Poppins-SemiBold"
-                  >
-                    KG
-                  </CustomText>
-                </View>
-              </View>
-            </View>
-
-            <View className="mt-4">
-              <CustomText className="mb-2" fontFamily="Poppins-SemiBold">
-                Bin Number
-              </CustomText>
-              <TextInput
-                className="bg-gray-100 border border-gray-300 rounded-md px-4 py-2 mb-4"
-                placeholder="Input bin number"
-                value={binNumber}
-                onChangeText={setBinNumber}
-                keyboardType="numeric"
-              />
-
-              <View className="flex-row justify-between mt-2">
-                <TouchableOpacity
-                  className="bg-white px-4 items-center justify-center rounded-md border border-[#008DBA]"
-                  onPress={() => console.log("Request Manual")}
-                >
-                  <CustomText
-                    className="font-medium text-[#008DBA]"
-                    fontFamily="Poppins-SemiBold"
-                  >
-                    Request Manual
-                  </CustomText>
-                </TouchableOpacity>
-
-                <TouchableOpacity
-                  className="bg-[#08ABDE] px-6 items-center justify-center rounded-md py-2"
-                  onPress={() => console.log("Submit", binNumber)}
-                >
-                  <CustomText
-                    className="font-medium text-white"
-                    fontFamily="Poppins-SemiBold"
-                  >
-                    Submit
-                  </CustomText>
-                </TouchableOpacity>
-              </View>
-            </View>
-          </View>
-        );
-      case "bluetooth":
-        return (
-          <View className="bg-white p-4 rounded-b-lg">
-            <View className="items-center py-2">
-              <Ionicons name="bluetooth" size={32} color="#2EA5CB" />
-              <CustomText className="text-base font-medium mt-2">
-                Bluetooth Devices
-              </CustomText>
-              <CustomText className="text-gray-600 text-sm mt-1 text-center">
-                Connect to nearby Bluetooth devices
-              </CustomText>
-            </View>
-
-            {/* Sample Bluetooth Devices */}
-            <View className="mt-4">
-              {renderInfoItem("Bluetooth Status", "On")}
-              {renderInfoItem("Scanner #1", "Connected")}
-              {renderInfoItem("Label Printer", "Available")}
-              {renderInfoItem("Waste Scale", "Not Connected")}
-            </View>
-          </View>
-        );
-      default:
-        return null;
-    }
   };
 
   return (
@@ -198,11 +98,140 @@ const WasteBagLabelScreen: React.FC = () => {
                 Bluetooth
               </CustomText>
             </TouchableOpacity>
+
+            <TouchableOpacity
+              className={`flex-1 py-3 flex-row justify-center items-center ${
+                activeTab === "manual"
+                  ? "bg-white border-t border-l border-r border-gray-200 rounded-t-lg"
+                  : "bg-gray-100 border-b border-gray-200"
+              }`}
+              onPress={() => setActiveTab("manual")}
+            >
+              {/* <Ionicons
+                name="scale"
+                size={18}
+                color={activeTab === "manual" ? "#2EA5CB" : "#6B7280"}
+              /> */}
+              <CustomText
+                className={`ml-2 font-medium ${
+                  activeTab === "manual" ? "text-[#2EA5CB]" : "text-gray-500"
+                }`}
+              >
+                Manual Scale
+              </CustomText>
+            </TouchableOpacity>
           </View>
 
           {/* Tab Content */}
-          {renderTabContent()}
+          <View className="bg-white p-4 rounded-b-lg">
+            {/* Weight Input Section - Dirapikan */}
+            <View className="py-3 border-b border-gray-200">
+              <View className="flex-row items-center justify-between">
+                <TouchableOpacity
+                  className="border border-[#008DBA] bg-white px-8 py-1 rounded-md"
+                  onPress={() => console.log("Get weight from device")}
+                >
+                  <CustomText
+                    className="text-[#008DBA]"
+                    fontFamily="Poppins-SemiBold"
+                  >
+                    Get
+                  </CustomText>
+                </TouchableOpacity>
+
+                <View className="flex-row items-center">
+                  <CustomText className="text-gray-600 mr-2">
+                    Weight:
+                  </CustomText>
+                  <TextInput
+                    className="bg-gray-100 px-3 py-1 rounded border border-gray-300 w-24 text-center"
+                    value={weight}
+                    editable={false}
+                    selectTextOnFocus={false}
+                  />
+                  <CustomText
+                    className="text-gray-600 ml-2"
+                    fontFamily="Poppins-SemiBold"
+                  >
+                    KG
+                  </CustomText>
+                </View>
+              </View>
+            </View>
+
+            <View className="mt-4">
+              <CustomText className="mb-2" fontFamily="Poppins-SemiBold">
+                Bin Number
+              </CustomText>
+              <TextInput
+                className="bg-gray-100 border border-gray-300 rounded-md px-4 py-2 mb-4"
+                placeholder="Input bin number"
+                value={binNumber}
+                onChangeText={setBinNumber}
+                keyboardType="numeric"
+              />
+
+              <CustomText className="my-2" fontFamily="Poppins-SemiBold">
+                Trolley Number
+              </CustomText>
+              <TextInput
+                className="bg-gray-100 border border-gray-300 rounded-md px-4 py-2 mb-4"
+                placeholder="Input bin trolley number"
+                value={trolleyNumber}
+                onChangeText={setTrolleyNumber}
+                keyboardType="numeric"
+              />
+
+              <View className="flex-row justify-end mt-2">
+                <TouchableOpacity
+                  className="bg-[#08ABDE] px-6 items-center justify-center rounded-md py-2"
+                  onPress={() => {
+                    console.log("Submit", binNumber, trolleyNumber);
+                    setIsOpenConfirmationModal(true);
+                  }}
+                >
+                  <CustomText
+                    className="font-medium text-white"
+                    fontFamily="Poppins-SemiBold"
+                  >
+                    Submit
+                  </CustomText>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
         </View>
+        <CustomModalConfirmation
+          visible={isOpenConfirmationModal}
+          onClose={() => setIsOpenConfirmationModal(false)}
+        >
+          <CustomText className="mb-5 text-center">
+            Update waste succesfully
+          </CustomText>
+          <View className="flex-row justify-between gap-4">
+            <View className="w-[120px]">
+              <CustomButton
+                variant="solid"
+                onPress={() => setIsOpenConfirmationModal(false)}
+                backgroundColor="#27AE60"
+                title="More Scans"
+                size="small"
+                borderRadius={15}
+              />
+            </View>
+
+            <View className="w-[120px]">
+              <CustomButton
+                variant="solid"
+                onPress={() => setIsOpenConfirmationModal(false)}
+                backgroundColor="#2EA5CB"
+                title="Done"
+                size="small"
+                borderRadius={15}
+              />
+            </View>
+          </View>
+        </CustomModalConfirmation>
       </ScrollView>
     </GlobalWrapper>
   );
