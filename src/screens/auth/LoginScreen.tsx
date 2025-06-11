@@ -95,7 +95,7 @@ const LoginScreen = () => {
           <View className="mt-8">
             <View className="mb-5">
               <CustomText className="text-base text-gray-800 mb-2">
-                Email
+                Username
               </CustomText>
               <TextInput
                 className="h-12 bg-gray-100 rounded-lg px-4 text-base text-gray-800 border border-gray-200"
@@ -171,7 +171,10 @@ const LoginScreen = () => {
           {/* App Version */}
           <View className="justify-end flex-1">
             <View className="items-center">
-              <Text className="text-sm text-gray-400">Version 1.0.0</Text>
+              <CustomText className="text-center text-xs">
+                App Version
+              </CustomText>
+              <CustomText className="text-center text-xs">V.1.0-Dev</CustomText>
             </View>
 
             {/* Partner Logos */}

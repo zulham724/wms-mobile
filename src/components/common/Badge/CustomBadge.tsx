@@ -7,6 +7,7 @@ import {
   ViewStyle,
   TextStyle,
 } from "react-native";
+import CustomText from "../Text/CustomText";
 
 type BadgeStatus =
   | "success"
@@ -123,7 +124,7 @@ const CustomBadge: React.FC<BadgeProps> = ({
 
   return (
     <View style={containerStyle}>
-      <Text className="font-poppins-regular" style={textStyle}>
+      <Text className="text-center" style={textStyle}>
         {label}
       </Text>
     </View>

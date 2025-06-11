@@ -9,6 +9,7 @@ import MainNavigator from "./MainNavigator";
 import WasteBagLabelScreen from "@screens/main/WasteBagLabelScreen";
 import FollowUpScreen from "@screens/main/FollowUpScreen";
 import WasteDataScreen from "@screens/main/WasteDataScreen";
+import WasteFollowUpActionScreen from "@screens/main/WasteFollowUpActionScreen";
 
 // Define the root stack parameter list
 type RootStackParamList = {
@@ -17,7 +18,7 @@ type RootStackParamList = {
   WasteBag: undefined;
   FollowUp: undefined;
   WasteData: undefined;
-  Scanner: undefined;
+  FollowUpAction: undefined;
 };
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -44,6 +45,10 @@ const Navigation = () => {
             <Stack.Screen name="WasteBag" component={WasteBagLabelScreen} />
             <Stack.Screen name="FollowUp" component={FollowUpScreen} />
             <Stack.Screen name="WasteData" component={WasteDataScreen} />
+            <Stack.Screen
+              name="FollowUpAction"
+              component={WasteFollowUpActionScreen}
+            />
           </>
         ) : (
           // User is not signed in -> show auth flow

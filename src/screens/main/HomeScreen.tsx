@@ -1,5 +1,11 @@
 import React from "react";
-import { View, Text, StyleSheet, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  TouchableOpacity,
+} from "react-native";
 import { useTranslation } from "react-i18next";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import Banner from "@components/screens/Home/Banner";
@@ -10,10 +16,13 @@ import TransactionDetails from "@components/screens/Home/TransactionDetails";
 import WasteGroupTitle from "@components/screens/Home/WasteGroupTitle";
 import { useSelector } from "react-redux";
 import GlobalWrapper from "@components/ui/GlobalWrapper";
+import { useNavigation } from "@react-navigation/native";
+import { CustomText } from "@components/common";
 
 const HomeScreen: React.FC = () => {
   const { t } = useTranslation();
   const navigationState = useSelector((state: any) => state.navigation);
+  const navigation = useNavigation();
 
   return (
     <GestureHandlerRootView className="flex-1">
@@ -25,10 +34,19 @@ const HomeScreen: React.FC = () => {
         >
           <View style={styles.container}>
             <View style={styles.wrapContainer}>
-              <Text className="font-poppins-semibold">{t("greeting")}, Andy</Text>
+              <Text className="font-poppins-semibold">
+                {t("greeting")}, Andy
+              </Text>
               <LanguageDropdown />
             </View>
             <Banner />
+            {/* <TouchableOpacity
+              onPress={() => navigation.navigate("WasteBag" as never)}
+            >
+              <CustomText className="text-xl text-[#877a7a]">
+                ke waste bag label
+              </CustomText>
+            </TouchableOpacity> */}
             <WasteGroupTitle />
             <FilterDate />
             <WasteRecap />

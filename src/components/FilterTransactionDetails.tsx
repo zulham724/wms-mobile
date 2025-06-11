@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
 import { CustomButton } from "@components/common";
+import { Ionicons } from "@expo/vector-icons";
 
 const FilterTransactionDetails = () => {
   const [classificationOpen, setClassificationOpen] = useState(false);
@@ -36,8 +37,13 @@ const FilterTransactionDetails = () => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.dropdownContainer}>
-        <Text style={styles.text}>Waste Classification</Text>
+      <View
+        style={[
+          styles.dropdownContainer,
+          { zIndex: actionOpen ? 2000 : 3000 }, // Memberikan z-index lebih tinggi untuk dropdown pertama
+        ]}
+      >
+        <Text style={styles.text}>Waste Type</Text>
         <DropDownPicker
           open={classificationOpen}
           value={selectedClassification}
@@ -45,13 +51,26 @@ const FilterTransactionDetails = () => {
           setOpen={setClassificationOpen}
           setValue={setSelectedClassification}
           setItems={setClassificationItems}
-          placeholder="Select Classification"
+          placeholder="Select Type"
           style={styles.dropdown}
-          dropDownContainerStyle={styles.dropdownList}
+          dropDownContainerStyle={[styles.dropdownList]}
+          textStyle={styles.dropdownText}
+          ArrowUpIconComponent={({ style }) => (
+            <Ionicons name="chevron-up" size={20} color="white" />
+          )}
+          ArrowDownIconComponent={({ style }) => (
+            <Ionicons name="chevron-down" size={20} color="white" />
+          )}
+          listItemLabelStyle={styles.listItemLabel}
         />
       </View>
 
-      <View style={styles.dropdownContainer}>
+      <View
+        style={[
+          styles.dropdownContainer,
+          { zIndex: classificationOpen ? 2000 : 3000 }, // Memberikan z-index lebih tinggi untuk dropdown pertama
+        ]}
+      >
         <Text style={styles.text}>Waste Action</Text>
         <DropDownPicker
           open={actionOpen}
@@ -62,7 +81,15 @@ const FilterTransactionDetails = () => {
           setItems={setActionItems}
           placeholder="Select Action"
           style={styles.dropdown}
-          dropDownContainerStyle={styles.dropdownList}
+          dropDownContainerStyle={[styles.dropdownList]}
+          textStyle={styles.dropdownText}
+          ArrowUpIconComponent={({ style }) => (
+            <Ionicons name="chevron-up" size={20} color="white" />
+          )}
+          ArrowDownIconComponent={({ style }) => (
+            <Ionicons name="chevron-down" size={20} color="white" />
+          )}
+          listItemLabelStyle={styles.listItemLabel}
         />
       </View>
 
@@ -100,7 +127,6 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: "600",
     marginBottom: 8,
-    zIndex: -1,
   },
   dropdownContainer: {
     marginBottom: 16,
@@ -109,10 +135,16 @@ const styles = StyleSheet.create({
   },
   dropdown: {
     borderColor: "#ccc",
-    backgroundColor: "#f9f9f9",
+    backgroundColor: "#08ABDE",
   },
   dropdownList: {
     borderColor: "#ccc",
+    backgroundColor: "#fff",
+    elevation: 5, // Add shadow for Android
+    shadowColor: "#000", // Shadow for iOS
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.2,
+    shadowRadius: 1.5,
   },
   buttonContainer: {
     flexDirection: "row",
@@ -122,6 +154,12 @@ const styles = StyleSheet.create({
   },
   button: {
     flex: 1,
+  },
+  dropdownText: {
+    color: "#fff", // Keep white for closed dropdown text
+  },
+  listItemLabel: {
+    color: "#000", // Black text for dropdown list items
   },
 });
 

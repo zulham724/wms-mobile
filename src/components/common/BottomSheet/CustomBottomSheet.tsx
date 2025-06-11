@@ -1,34 +1,69 @@
-import React, { useRef, useState, useCallback, useEffect } from "react";
-import { View, StyleSheet } from "react-native";
+import React, {
+  useRef,
+  useState,
+  useCallback,
+  useEffect,
+  useMemo,
+} from "react";
+import {
+  View,
+  StyleSheet,
+  Dimensions,
+  StatusBar,
+  Platform,
+} from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
 
 type BottomSheetProps = {
   vision: boolean;
   children: React.ReactNode;
   onClose?: () => void;
-  initialSnapIndex?: number; // Properti untuk mengatur snap index custom
+  initialSnapIndex?: number;
 };
 
 const CustomBottomSheet: React.FC<BottomSheetProps> = ({
   vision,
   children,
   onClose,
-  initialSnapIndex = 0, // default ke 0 jika tidak diberikan
+  initialSnapIndex = 0,
 }) => {
-  // ref untuk BottomSheet
   const bottomSheetRef = useRef<BottomSheet>(null);
+  const [snapIndex, setSnapIndex] = useState<number>(-1);
 
-  // State untuk kontrol tinggi BottomSheet
-  const [snapIndex, setSnapIndex] = useState<number>(-1); // 0, 1, 2 untuk snap points yang berbeda
+  // Get safe area insets
+  const insets = useSafeAreaInsets();
 
-  // snap points
-  const snapPoints = ["50%", "70%", "95%"];
+  // Get screen dimensions
+  const { height: screenHeight } = Dimensions.get("window");
 
-  // callback untuk menangani perubahan
+  // Calculate available height (excluding status bar and safe areas)
+  const availableHeight = useMemo(() => {
+    const statusBarHeight =
+      Platform.OS === "android" ? StatusBar.currentHeight || 0 : insets.top;
+    const totalSafeArea = statusBarHeight + insets.bottom;
+    const usableHeight = screenHeight - totalSafeArea;
+
+    return {
+      small: Math.round(usableHeight * 0.5), // 50% dari tinggi yang tersedia
+      medium: Math.round(usableHeight * 0.7), // 70% dari tinggi yang tersedia
+      large: usableHeight, // 100% tinggi yang tersedia
+    };
+  }, [screenHeight, insets]);
+
+  // Dynamic snap points berdasarkan tinggi yang tersedia
+  const snapPoints = useMemo(
+    () => [
+      availableHeight.small,
+      availableHeight.medium,
+      availableHeight.large,
+    ],
+    [availableHeight]
+  );
+
   const handleSheetChanges = useCallback(
     (index: number) => {
       console.log("Sheet position changed to", index);
-      // Jika index berubah ke -1 (tertutup), panggil onClose callback
       if (index === -1 && onClose) {
         onClose();
       }
@@ -36,11 +71,9 @@ const CustomBottomSheet: React.FC<BottomSheetProps> = ({
     [onClose]
   );
 
-  // Fungsi untuk menutup bottom sheet
   const closeSheet = useCallback(() => {
     if (bottomSheetRef.current) {
       bottomSheetRef.current.close();
-      // Tambahkan delay sebelum mengubah state snapIndex
       setTimeout(() => {
         setSnapIndex(-1);
         if (onClose) onClose();
@@ -48,7 +81,6 @@ const CustomBottomSheet: React.FC<BottomSheetProps> = ({
     }
   }, [onClose]);
 
-  // Memperluas atau mengubah posisi sheet berdasarkan snapIndex
   useEffect(() => {
     if (bottomSheetRef.current) {
       if (snapIndex >= 0) {
@@ -60,11 +92,10 @@ const CustomBottomSheet: React.FC<BottomSheetProps> = ({
   }, [snapIndex]);
 
   useEffect(() => {
-    // Set snapIndex sesuai kondisi saat BottomSheet pertama kali muncul
     if (vision) {
-      setSnapIndex(initialSnapIndex); // Set snapIndex sesuai initialSnapIndex
+      setSnapIndex(initialSnapIndex);
     } else {
-      closeSheet(); // close sheet saat vision false
+      closeSheet();
     }
   }, [vision, initialSnapIndex, closeSheet]);
 
@@ -76,11 +107,22 @@ const CustomBottomSheet: React.FC<BottomSheetProps> = ({
         snapPoints={snapPoints}
         onChange={handleSheetChanges}
         handleStyle={styles.handleStyle}
-        containerStyle={styles.bottomSheetContainer}
+        containerStyle={[
+          styles.bottomSheetContainer,
+          {
+            // Tambahkan margin top untuk menghindari status bar
+            marginTop:
+              Platform.OS === "android"
+                ? StatusBar.currentHeight || 0
+                : insets.top,
+          },
+        ]}
         enablePanDownToClose={true}
+        // Tambahkan props untuk mengontrol area maksimal
+        maxDynamicContentSize={availableHeight.large}
       >
         <BottomSheetView style={styles.contentContainer}>
-          <View>{children}</View>
+          <View style={styles.content}>{children}</View>
         </BottomSheetView>
       </BottomSheet>
     </View>
@@ -106,13 +148,17 @@ const styles = StyleSheet.create({
   },
   handleStyle: {
     backgroundColor: "#FFFFFF",
-    borderTopLeftRadius: 100,
-    borderTopRightRadius: 100,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
   },
   contentContainer: {
     flex: 1,
+    width: "100%",
+  },
+  content: {
+    flex: 1,
     alignItems: "center",
-    width: "100%", // Pastikan konten full width
+    width: "100%",
     padding: 20,
   },
 });

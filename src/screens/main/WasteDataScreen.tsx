@@ -11,6 +11,7 @@ import { Ionicons } from "@expo/vector-icons";
 import GlobalWrapper from "@components/ui/GlobalWrapper";
 import DropDownPicker from "react-native-dropdown-picker";
 import { CustomButton, CustomBadge, CustomCard } from "@components/common";
+import { useNavigation } from "@react-navigation/native";
 
 // Custom checkbox component
 const CustomCheckbox = ({
@@ -36,6 +37,7 @@ const CustomCheckbox = ({
 };
 
 export default function WasteDataScreen() {
+  const navigation = useNavigation();
   // Total waste data items
   const totalItems = 5;
 
@@ -56,6 +58,10 @@ export default function WasteDataScreen() {
   const onFollowUpOpen = useCallback(() => {
     // Close other dropdowns if needed in the future
   }, []);
+
+  const goToWasteFollowUpActionScreen = () => {
+    navigation.navigate("FollowUpAction" as never);
+  };
 
   // Handle when user selects or deselects one card
   const handleSelectItem = useCallback((index: number) => {
@@ -108,7 +114,7 @@ export default function WasteDataScreen() {
         nestedScrollEnabled={true}
         className="flex-1"
       >
-        <View className="mb-14">
+        <View className="mb-6">
           {Array.from({ length: totalItems }).map((_, index) => (
             <View className="mb-4 flex-row items-center" key={index}>
               {/* Card component takes remaining space */}
@@ -236,7 +242,7 @@ export default function WasteDataScreen() {
                   textColor="#08ABDE"
                   size="medium"
                   title="Next"
-                  onPress={() => console.log("Submit button clicked")}
+                  onPress={() => goToWasteFollowUpActionScreen()}
                 />
               </View>
             </View>

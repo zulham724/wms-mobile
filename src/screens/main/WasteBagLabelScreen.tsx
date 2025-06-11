@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, TouchableOpacity, ScrollView, TextInput } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import GlobalWrapper from "@components/ui/GlobalWrapper";
@@ -7,6 +7,7 @@ import {
   CustomText,
   CustomModalConfirmation,
 } from "@components/common";
+// import useBLE from "@hooks/useBLE";
 
 const WasteBagLabelScreen: React.FC = () => {
   const [activeTab, setActiveTab] = useState<
@@ -17,6 +18,30 @@ const WasteBagLabelScreen: React.FC = () => {
   const [trolleyNumber, setTrolleyNumber] = useState<string>("");
   const [isOpenConfirmationModal, setIsOpenConfirmationModal] =
     useState<boolean>(false);
+
+  // const {
+  //   requestPermissions,
+  //   scanForPeripherals,
+  //   allDevices,
+  //   connectToDevice,
+  //   connectedDevice,
+  //   heartRate,
+  //   disconnectFromDevice,
+  // } = useBLE();
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+
+  // const scanForDevices = async () => {
+  //   const isPermissionsEnabled = await requestPermissions();
+  //   if (isPermissionsEnabled) {
+  //     scanForPeripherals();
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   if (activeTab === "bluetooth") {
+  //     scanForDevices();
+  //   }
+  // }, [activeTab]);
 
   const wasteData = {
     "Waste Group Source": "Clinical Waste",
@@ -41,6 +66,9 @@ const WasteBagLabelScreen: React.FC = () => {
       </View>
     );
   };
+
+  // console.log("allDevices", allDevices);
+  // console.log("connectedDevice", connectedDevice);
 
   return (
     <GlobalWrapper title="Waste Bag Label">

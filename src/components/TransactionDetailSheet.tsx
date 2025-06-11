@@ -2,8 +2,8 @@ import React from "react";
 import { View, Text, StyleSheet, TextInput, Dimensions } from "react-native";
 import { CustomBadge, CustomText } from "@components/common";
 import { ScrollView } from "react-native-gesture-handler";
+import Icon from "react-native-vector-icons/FontAwesome";
 
-// Mendapatkan tinggi layar untuk membatasi tinggi ScrollView
 const { height: screenHeight } = Dimensions.get("window");
 
 const DataItem = ({ label, value }: { label: string; value: string }) => {
@@ -72,24 +72,22 @@ const TransactionDetailsSheet = () => {
           <CustomText fontFamily="Poppins-SemiBold" className="text-base mt-5">
             Waste Monitoring
           </CustomText>
-          <View className="mb-6 items-center px-7">
+          <View className="mb-6 items-center px-20 mt-2">
             {/* Icon Row */}
             <View className="flex-row justify-between w-full mb-3">
               <View style={styles.iconContainer}>
-                {/* <BoxIcon width={30} height={30} /> */}
+                <Icon name="cube" size={22} color="#2EA5CB" />
               </View>
               <View style={styles.iconContainer}>
-                {/* <FireIcon width={30} height={30} /> */}
+                <Icon name="cog" size={22} color="#2EA5CB" />
               </View>
               <View style={styles.iconContainer}>
-                {/* <FireAltIcon width={30} height={30} /> */}
+                <Icon name="fire" size={22} color="#2EA5CB" />
               </View>
             </View>
 
             {/* Timeline Row */}
-            <View
-              className="flex-row items-center justify-between w-full"
-            >
+            <View className="flex-row items-center justify-between w-full">
               <View style={styles.timelineItem}>
                 <View style={styles.circle} />
               </View>

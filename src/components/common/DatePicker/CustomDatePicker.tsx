@@ -9,15 +9,18 @@ import {
   ViewStyle,
 } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
+import { format } from "date-fns";
 
 type CustomDatePickerProps = {
   onDateSelected: (date: string) => void;
   style?: ViewStyle; // ✅ ADD THIS
+  mode?: "date" | "time";
 };
 
 const CustomDatePicker: React.FC<CustomDatePickerProps> = ({
   onDateSelected,
   style,
+  mode = "date",
 }) => {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [showPicker, setShowPicker] = useState(false);
@@ -31,10 +34,10 @@ const CustomDatePicker: React.FC<CustomDatePickerProps> = ({
       onDateSelected(date.toISOString().split("T")[0]); // Format to yyyy-mm-dd
     }
   };
+  const formattedDate = format(selectedDate || new Date(), "dd-MM-yyyy");
 
-  const formattedDate = selectedDate
-    ? selectedDate.toISOString().split("T")[0]
-    : "Select Date";
+  console.log(selectedDate, "selectedDate");
+  console.log(formattedDate, "formattedDate");
 
   return (
     <View style={[styles.wrapper, style]}>
@@ -49,7 +52,7 @@ const CustomDatePicker: React.FC<CustomDatePickerProps> = ({
       {showPicker && (
         <DateTimePicker
           value={selectedDate || new Date()}
-          mode="date"
+          mode={mode}
           display={Platform.OS === "ios" ? "spinner" : "calendar"}
           onChange={onChange}
         />

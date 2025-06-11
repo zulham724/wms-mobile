@@ -15,7 +15,16 @@
       "adaptiveIcon": {
         "foregroundImage": "./src/assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "permissions": [
+        "android.permission.BLUETOOTH",
+        "android.permission.BLUETOOTH_ADMIN",
+        "android.permission.BLUETOOTH_CONNECT",
+        "android.permission.BLUETOOTH",
+        "android.permission.BLUETOOTH_ADMIN",
+        "android.permission.BLUETOOTH_CONNECT"
+      ],
+      "package": "com.smileplatform.smilewmsmobile"
     },
     "web": {
       "bundler": "metro",
@@ -24,18 +33,17 @@
     },
     "plugins": [
       [
-        "react-native-ble-plx"
-      ],
-      "expo-router",
-      [
-        "expo-splash-screen",
+        "react-native-ble-plx",
         {
-          "image": "./src/assets/images/splash-icon.png",
-          "imageWidth": 200,
-          "resizeMode": "contain",
-          "backgroundColor": "#ffffff"
+          "isBackgroundEnabled": true,
+          "modes": [
+            "peripheral",
+            "central"
+          ],
+          "bluetoothAlwaysPermission": "Allow $(PRODUCT_NAME) to connect to bluetooth devices"
         }
       ],
+      "expo-router",
       "expo-localization"
     ],
     "experiments": {
