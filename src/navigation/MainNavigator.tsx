@@ -15,14 +15,14 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { CustomBottomSheet } from "@components/common";
 import {
-  NavigationStateInterface,
   setIsBottomSheetVisible,
   setIsTransactionVisible,
-} from "@services/features/navigationSlice";
+} from "@services/features/uiVisibilitySlice";
 import FilterTransactionDetails from "@components/FilterTransactionDetails";
 import { useNavigation } from "@react-navigation/native";
 import TransactionDetailsSheet from "@components/TransactionDetailSheet";
 import FloatingButtonScanner from "@components/ui/FloatingButtonScanner";
+import { RootStateInterface } from "@services/store";
 
 // Define the type untuk Stack Navigator yang berisi Home dan layar tambahan
 export type HomeStackParamList = {
@@ -45,8 +45,8 @@ export type MainTabParamList = {
 const Tab = createBottomTabNavigator<MainTabParamList>();
 
 const MainNavigator = () => {
-  const navigationState: NavigationStateInterface = useSelector(
-    (state: any) => state.navigation
+  const uiVisibility = useSelector(
+    (state: RootStateInterface) => state.uiVisibility
   );
   const navigationRoute = useNavigation();
   const dispatch = useDispatch();
@@ -109,7 +109,7 @@ const MainNavigator = () => {
             elevation: 0, // Hapus shadow di Android
             borderTopWidth: 0, // Hapus border di iOS
             position: "absolute",
-            zIndex: navigationState.isTabBarVisible ? 1 : -1,
+            zIndex: uiVisibility.isTabBarVisible ? 1 : -1,
           },
           tabBarLabelStyle: {
             display: "none",
@@ -124,9 +124,9 @@ const MainNavigator = () => {
       </Tab.Navigator>
 
       {/* Bottom sheets dari HomeScreen bisa dipindah ke sini */}
-      {!navigationState.isModalScannerVisible && (
+      {!uiVisibility.isModalScannerVisible && (
         <CustomBottomSheet
-          vision={navigationState.isBottomSheetVisible}
+          vision={uiVisibility.isBottomSheetVisible}
           onClose={closeBottomSheet}
         >
           <View className="mt-2 flex-1 mx-4">
@@ -135,9 +135,9 @@ const MainNavigator = () => {
           </View>
         </CustomBottomSheet>
       )}
-      {!navigationState.isModalScannerVisible && (
+      {!uiVisibility.isModalScannerVisible && (
         <CustomBottomSheet
-          vision={navigationState.isTransactionVisible}
+          vision={uiVisibility.isTransactionVisible}
           onClose={closeTransactionSheet}
           initialSnapIndex={2}
         >

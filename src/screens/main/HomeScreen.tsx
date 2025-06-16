@@ -18,10 +18,13 @@ import { useSelector } from "react-redux";
 import GlobalWrapper from "@components/ui/GlobalWrapper";
 import { useNavigation } from "@react-navigation/native";
 import { CustomText } from "@components/common";
+import { RootStateInterface } from "@services/store";
 
 const HomeScreen: React.FC = () => {
   const { t } = useTranslation();
-  const navigationState = useSelector((state: any) => state.navigation);
+  const uiVisibility = useSelector(
+    (state: RootStateInterface) => state.uiVisibility
+  );
   const navigation = useNavigation();
 
   return (
@@ -54,7 +57,7 @@ const HomeScreen: React.FC = () => {
           </View>
         </ScrollView>
       </GlobalWrapper>
-      {!navigationState.isModalScannerVisible && (
+      {!uiVisibility.isModalScannerVisible && (
         <>
           {/* BottomSheet untuk filter */}
           {/* <BottomSheetComponent

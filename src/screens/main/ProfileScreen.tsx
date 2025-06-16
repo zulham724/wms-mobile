@@ -2,36 +2,12 @@ import React from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useAuth } from "../../context/AuthContext";
+// import { useAuth } from "../../context/AuthContext";
 import GlobalModal from "@components/common/Modal/CustomModalConfirmation"; // Import GlobalModal
+import { useAuth } from "@hooks/useAuth";
 
 const ProfileScreen = () => {
   const { signOut } = useAuth();
-
-  // State untuk Global Modal
-  const [globalModalVisible, setGlobalModalVisible] = React.useState(false);
-  const [modalPosition, setModalPosition] = React.useState<
-    "center" | "bottom" | "top"
-  >("center");
-
-  const profileOptions = [
-    { title: "Account Settings", icon: "settings-outline" },
-    { title: "Notifications", icon: "notifications-outline" },
-    { title: "Help Center", icon: "help-circle-outline" },
-    { title: "About App", icon: "information-circle-outline" },
-  ];
-
-  // Fungsi untuk membuka modal dengan posisi tertentu
-  const openGlobalModal = (position: "center" | "bottom" | "top") => {
-    setModalPosition(position);
-    setGlobalModalVisible(true);
-  };
-
-  // Fungsi untuk memulai scanner dari modal
-  const startScanner = () => {
-    setGlobalModalVisible(false);
-    // setIsScannerVisible(true);
-  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -41,38 +17,6 @@ const ProfileScreen = () => {
           <Text style={styles.logoutText}>Logout</Text>
         </TouchableOpacity>
       </View>
-      {/* GlobalModal Component */}
-      <GlobalModal
-        visible={globalModalVisible}
-        onClose={() => setGlobalModalVisible(false)}
-        position={modalPosition}
-        closeOnOverlayPress={true}
-        animationDuration={300}
-      >
-        <View style={styles.modalContent}>
-          <Text style={styles.modalTitle}>Global Modal</Text>
-          <Text style={styles.modalDescription}>
-            Ini adalah contoh penggunaan GlobalModal yang dapat menerima
-            children. Modal ini dapat digunakan di mana saja dalam aplikasi.
-          </Text>
-
-          {modalPosition === "center" && (
-            <TouchableOpacity
-              style={[styles.modalActionButton, styles.scanButton]}
-              onPress={startScanner}
-            >
-              <Text style={styles.buttonText}>Mulai Scanner</Text>
-            </TouchableOpacity>
-          )}
-
-          <TouchableOpacity
-            style={[styles.modalActionButton, styles.closeButton]}
-            onPress={() => setGlobalModalVisible(false)}
-          >
-            <Text style={styles.buttonText}>Tutup</Text>
-          </TouchableOpacity>
-        </View>
-      </GlobalModal>
     </SafeAreaView>
   );
 };

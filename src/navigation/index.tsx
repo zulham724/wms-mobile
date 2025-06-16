@@ -3,13 +3,14 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { ActivityIndicator, View } from "react-native";
 
-import { useAuth } from "../context/AuthContext";
+// import { useAuth } from "../context/AuthContext";
 import AuthNavigator from "./AuthNavigator";
 import MainNavigator from "./MainNavigator";
 import WasteBagLabelScreen from "@screens/main/WasteBagLabelScreen";
 import FollowUpScreen from "@screens/main/FollowUpScreen";
 import WasteDataScreen from "@screens/main/WasteDataScreen";
 import WasteFollowUpActionScreen from "@screens/main/WasteFollowUpActionScreen";
+import { useAuth } from "@hooks/useAuth";
 
 // Define the root stack parameter list
 type RootStackParamList = {

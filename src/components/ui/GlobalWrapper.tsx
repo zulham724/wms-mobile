@@ -8,8 +8,8 @@ import { StatusBar } from "expo-status-bar";
 import ModalStartScanner from "@components/ui/ModalStartScanner";
 import { useSelector } from "react-redux";
 import ScannerBarcode from "@components/ui/ScannerBarcode";
-import { NavigationStateInterface } from "@services/features/navigationSlice";
-import {CustomText} from "@components/common";
+import { CustomText } from "@components/common";
+import { RootStateInterface } from "@services/store";
 
 interface GlobalWrapperProps {
   title?: string;
@@ -25,8 +25,8 @@ const GlobalWrapper = ({
   children,
 }: GlobalWrapperProps) => {
   const navigation = useNavigation();
-  const navigationState: NavigationStateInterface = useSelector(
-    (state: any) => state.navigation
+  const uiVisibility = useSelector(
+    (state: RootStateInterface) => state.uiVisibility
   );
 
   const handleGoBack = () => {
@@ -50,7 +50,9 @@ const GlobalWrapper = ({
             </TouchableOpacity>
           )}
           <View className="flex-1 items-center">
-            {title && <CustomText fontFamily="Poppins-SemiBold">{title}</CustomText>}
+            {title && (
+              <CustomText fontFamily="Poppins-SemiBold">{title}</CustomText>
+            )}
           </View>
         </View>
 
@@ -61,7 +63,7 @@ const GlobalWrapper = ({
         <ModalStartScanner />
 
         {/* Scanner overlay */}
-        {navigationState.isScannerVisible && (
+        {uiVisibility.isScannerVisible && (
           <View className="absolute inset-0 z-[100] bg-white">
             <ScannerBarcode />
           </View>

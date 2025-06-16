@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-export interface NavigationStateInterface {
+export interface UiVisibilityInterface {
   isTabBarVisible: boolean;
   isModalScannerVisible: boolean;
   isScannerVisible: boolean;
@@ -16,8 +16,8 @@ const initialState = {
   isTransactionVisible: false,
 };
 
-export const navigationSlice = createSlice({
-  name: "navigation",
+export const uiVisibilitySlice = createSlice({
+  name: "uiVisibility",
   initialState,
   reducers: {
     setIsTabBarVisible: (state, action) => {
@@ -45,6 +45,6 @@ export const {
   setIsScannerVisible,
   setIsBottomSheetVisible,
   setIsTransactionVisible,
-} = navigationSlice.actions;
+} = uiVisibilitySlice.actions;
 
-export default navigationSlice.reducer;
+export default uiVisibilitySlice.reducer;

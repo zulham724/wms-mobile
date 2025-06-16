@@ -52,7 +52,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       // Here you would normally make an API call to your backend using fetch
       const { data } = await axios.post(
         "https://smile5.badr.co.id/auth/login",
-        { username: "dummy_wms_one", password: "Smile12*" },
+        { username, password },
         {
           headers: {
             Accept: "application/json",

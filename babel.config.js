@@ -19,6 +19,7 @@ module.exports = function (api) {
             '@assets': "./src/assets",
             '@types': "./src/types",
             '@i18n': "./src/i18n",
+            '@models': "./src/models",
           },
         },
       ],

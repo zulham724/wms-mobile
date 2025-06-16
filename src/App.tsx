@@ -66,10 +66,8 @@ const App = () => {
   return (
     <SafeAreaProvider>
       <Provider store={store}>
-        <AuthProvider>
-          <Navigation />
-          <StatusBar style="auto" />
-        </AuthProvider>
+        <Navigation />
+        <StatusBar style="auto" />
       </Provider>
     </SafeAreaProvider>
   );

@@ -14,11 +14,12 @@ import {
 } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { Ionicons } from "@expo/vector-icons";
-import { useAuth } from "../../context/AuthContext";
+// import { useAuth } from "../../context/AuthContext";
 import { CustomText } from "@components/common";
+import { useAuth } from "@hooks/useAuth";
 
 const LoginScreen = () => {
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -26,22 +27,13 @@ const LoginScreen = () => {
   const { signIn } = useAuth();
 
   const handleLogin = async () => {
-    if (!email || !password) {
-      Alert.alert("Error", "Please enter both email and password");
-      return;
-    }
-
     setIsLoading(true);
     try {
       // Call the signIn function from our AuthContext
-      await signIn(email, password);
+      const response = await signIn(username, password);
+      console.log("Login response:", response);
+
       // No need to navigate - App.tsx will handle this based on isSignedIn state
-    } catch (error) {
-      Alert.alert(
-        "Login Failed",
-        "Please check your credentials and try again"
-      );
-      console.error(error);
     } finally {
       setIsLoading(false);
     }
@@ -49,7 +41,7 @@ const LoginScreen = () => {
 
   const handleForgotPassword = () => {
     // Handle forgot password logic here
-    console.log("Forgot password for:", email);
+    console.log("Forgot password for:", username);
     Alert.alert(
       "Reset Password",
       "Password reset functionality will be implemented soon."
@@ -99,11 +91,10 @@ const LoginScreen = () => {
               </CustomText>
               <TextInput
                 className="h-12 bg-gray-100 rounded-lg px-4 text-base text-gray-800 border border-gray-200"
-                placeholder="Enter your email"
+                placeholder="Enter your Username"
                 placeholderTextColor="#A0A0A0"
-                value={email}
-                onChangeText={setEmail}
-                keyboardType="email-address"
+                value={username}
+                onChangeText={setUsername}
                 autoCapitalize="none"
                 editable={!isLoading}
               />

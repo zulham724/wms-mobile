@@ -13,7 +13,7 @@ const CustomModalConfirmation: React.FC<CustomModalConfirmationProps> = ({
   visible,
   onClose,
   children,
-  status = "alert",
+  status = "success",
 }) => {
   // Animated values untuk icon
   const scaleAnim = useRef(new Animated.Value(0)).current;

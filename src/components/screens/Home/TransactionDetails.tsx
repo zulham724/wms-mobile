@@ -4,7 +4,7 @@ import React from "react";
 import { MaterialIcons } from "@expo/vector-icons";
 import TransactionsDetailsItem from "@components/TransactionsDetailsItem";
 import { useDispatch } from "react-redux";
-import { setIsBottomSheetVisible } from "@services/features/navigationSlice";
+import { setIsBottomSheetVisible } from "@services/features/uiVisibilitySlice";
 import {CustomText} from "@components/common";
 
 export default function TransactionDetails() {

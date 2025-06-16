@@ -6,15 +6,15 @@ import {
   setIsModalScannerVisible,
   setIsTabBarVisible,
   setIsScannerVisible,
-  NavigationStateInterface,
-} from "@services/features/navigationSlice";
+} from "@services/features/uiVisibilitySlice";
+import { RootStateInterface } from "@services/store";
 
 export default function ModalStartScanner() {
   const dispatch = useDispatch();
-  const navigationState: NavigationStateInterface = useSelector(
-    (state: any) => state.navigation
+  const uiVisibility = useSelector(
+    (state: RootStateInterface) => state.uiVisibility
   );
-  const { isModalScannerVisible } = navigationState;
+  const { isModalScannerVisible } = uiVisibility;
 
   const handleOpenScanner = () => {
     dispatch(setIsModalScannerVisible(false));

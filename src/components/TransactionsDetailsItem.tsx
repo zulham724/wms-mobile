@@ -1,7 +1,7 @@
 import React, { useCallback, useRef } from "react";
 import { View, StyleSheet, Pressable } from "react-native";
 import { useDispatch } from "react-redux";
-import { setIsTransactionVisible } from "@services/features/navigationSlice";
+import { setIsTransactionVisible } from "@services/features/uiVisibilitySlice";
 import { CustomText, CustomBadge, CustomCard } from "@components/common";
 
 interface BadgeProps {

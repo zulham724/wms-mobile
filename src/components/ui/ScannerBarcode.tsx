@@ -24,7 +24,7 @@ import {
   setIsScannerVisible,
   setIsTabBarVisible,
   setIsModalScannerVisible,
-} from "@services/features/navigationSlice";
+} from "@services/features/uiVisibilitySlice";
 
 // Get the device dimensions - menggunakan Dimensions.get("screen") untuk ukuran layar sebenarnya
 const { width: screenWidth, height: screenHeight } = Dimensions.get("screen");
