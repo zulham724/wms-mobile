@@ -39,3 +39,4 @@ app-example
 
 # Android
 android/
+.env
