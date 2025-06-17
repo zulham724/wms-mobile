@@ -22,9 +22,9 @@ const languages: LanguageOption[] = [
 ];
 
 const LanguageDropdown: React.FC = () => {
-  const localeLanguage = Localization.locale.slice(0, 2);
+  const localeLanguage = Localization.getLocales().slice(0, 2);
   const [selectedLanguage, setSelectedLanguage] = useState<LanguageOption>(
-    languages.find((lang) => lang.code === localeLanguage) || languages[0]
+    languages.find((lang) => lang.code === localeLanguage[0].languageTag) || languages[0]
   );
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const { i18n } = useTranslation();
